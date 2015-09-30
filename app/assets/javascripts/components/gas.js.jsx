@@ -30,7 +30,7 @@ var GasInfo = React.createClass({
   render: function () {
     return (
       <div className="gasinfo">
-        <i className="fa fa-car"></i> Closest Gas {this.state.gasDistance}
+        <i className="fa fa-car"></i><br></br>Closest Gas <br></br>{this.state.gasDistance}
       </div>
     )
   }

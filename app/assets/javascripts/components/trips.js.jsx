@@ -273,9 +273,7 @@ var Itinerary = React.createClass({
     },
   render: function () {
     var trip = this.props.trip
-    // This date was showing below h3 Ended In
-    // <h3>{this.state.start_date} to {this.state.end_date}</h3>
-      var destinationsPath="/" + trip.start_location
+    var destinationsPath="/" + trip.start_location
       this.props.destinations.forEach(function (destination) {
         destinationsPath += "/" + destination.name.replace(/ /g, "+")
       })

@@ -136,21 +136,46 @@ i.fi-camera {
   margin-top: 5%;
 }
 
+.trips-info {
+  padding: 0;
+}
+
 .hideMe {
   display: none;
 }
 
+.tiles {
+  padding: 0;
+}
+
+.arrow-left {
+  padding: 0;
+  margin-top: 12%;
+  text-align: left;
+  font-size: 2.5em;
+}
+
+.arrow-right {
+  padding: 0;
+  margin-top: 12%;
+  text-align: right;
+  font-size: 2.5em;
+}
+
+.new-trip {
+  text-align: center;
+  margin-top: 10px;
+}
 ul.polaroids {
-  clear: both;
-  display: inline-block;
-  height: 450px;
-  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  text-align: center;
   li {
     background-color: $white;
     -webkit-transition: -webkit-transform .15s linear;
-    width: 18%;
-    height: 150px;
-    margin: 0.5%;
+    width: 35%;
+    height: 250px;
+    margin: 1%;
     display: inline-block;
     vertical-align: top;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
@@ -174,21 +199,18 @@ ul.polaroids {
   p {
     text-align: center;
   }
-  input[type="text"] {
-    margin-top: 10px;
-  }
 }
 
-ul.button-group.even-1 {
-  float: right;
-  margin-right: 5%;
-  & .button {
-    min-width: 110px;
-  }
-}
 
 li {
   list-style-type: none;
+}
+
+.gasinfo{
+  text-align: center;
+  border: solid #73A0A9 3px;
+  border-radius: 3px;
+  color: $white;
 }
 
 .newTrip.reveal-modal {

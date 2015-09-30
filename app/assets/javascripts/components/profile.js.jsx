@@ -6,38 +6,40 @@ var SettingsButtons = React.createClass({
               hometown_state: "",
               favoriteloc: "",
               trips: "",
-              miles: ""};
+              miles: "",
+              lat: "",
+              long: ""};
   },
   componentDidMount: function(){
-      $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
+      if(this.isMounted()){
+        var finishedTrips = results.filter(function (trip) {
+          return trip.finished
+        })
+        this.setState({
+          trips: finishedTrips.length
+        })
+      }
+    }.bind(this));
+    $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
+      console.log(results);
         if(this.isMounted()){
-          var finishedTrips = results.filter(function (trip) {
-            return trip.finished
-          })
+          if(results.name){
+          var name = results.name.charAt(0).toUpperCase() + results.name.substring(1).toLowerCase()
+          }
+          var hometown_city = results.hometown_city
+          var hometown_state = results.hometown_state
+          var favoriteloc = results.favorite_place
+          var miles = results.total_miles
           this.setState({
-            trips: finishedTrips.length
+            name: name,
+            hometown_city: hometown_city,
+            hometown_state: hometown_state,
+            favoriteloc: favoriteloc,
+            miles: miles
           })
         }
-      }.bind(this));
-      $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
-        console.log(results);
-          if(this.isMounted()){
-            if(results.name){
-            var name = results.name.charAt(0).toUpperCase() + results.name.substring(1).toLowerCase()
-            }
-            var hometown_city = results.hometown_city
-            var hometown_state = results.hometown_state
-            var favoriteloc = results.favorite_place
-            var miles = results.total_miles
-            this.setState({
-              name: name,
-              hometown_city: hometown_city,
-              hometown_state: hometown_state,
-              favoriteloc: favoriteloc,
-              miles: miles
-            })
-          }
-        }.bind(this))
+      }.bind(this))
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
@@ -94,6 +96,7 @@ var ProfileInfo = React.createClass({
           </div>
         </div>
         <div className="landing-zone small-3 columns">
+          <GasInfo />
         </div>
       </div>
     )
@@ -181,8 +184,8 @@ var NewTripButton = React.createClass({
 	},
 	render: function(){
 		return (
-			<div>
-      <button class='new-trip button tiny' onClick={this.handleClick}><span className='fi-plus'></span> Create New Trip</button>
+			<div className="new-trip">
+        <button class='new-trip button tiny' onClick={this.handleClick}><span className='fi-plus'></span> Create New Trip</button>
 			</div>
 		);
 	}
@@ -207,12 +210,6 @@ var GetTiles = React.createClass({
       }
     }.bind(this))
   },
-  sortByProp: function (input) {
-    this.state.sortBy === "id" ? this.setState({ sortBy: "name", sortProp: "Trip Name" }) : this.setState({ sortBy: "id", sortProp: "Date Created"})
-  },
-  sortByAsc: function (input) {
-    this.state.asc === 1 ? this.setState({ asc: -1, sortOrder: "Descending" }) : this.setState({ asc: 1, sortOrder: "Ascending"  })
-  },
   render: function () {
     var trips = this.state.value
     var allTrips = []
@@ -222,9 +219,19 @@ var GetTiles = React.createClass({
     return (
       <div>
         <NewTripButton />
-        <ul className="polaroids large-12 columns">
-          {allTrips}
-        </ul>
+          <div className="carousal small-12 columns">
+          <div className="arrow-left small-1 columns">
+            <a href="#"><i fid="edit-intro" className='fi-arrow-left edit-profile' onClick={this.props.toggle}></i></a>
+          </div>
+          <div className="trip-tile small-10 columns">
+            <ul className="polaroids">
+              {allTrips[0]}
+            </ul>
+          </div>
+          <div className="arrow-right small-1 columns">
+            <a href="#"><i fid="edit-intro" className='fi-arrow-right edit-profile' onClick={this.props.toggle}></i></a>
+          </div>
+          </div>
       </div>
     );
   }
