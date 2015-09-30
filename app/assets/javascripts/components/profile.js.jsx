@@ -66,18 +66,22 @@ var ProfileInfo = React.createClass({
   render: function () {
     console.log(this.props.miles);
     return (
-      <div className="profile-info">
-        <div className="profile-pic">
-          <img src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
+      <div className="profile-info small-12 columns">
+        <div className="profile-pic small-3 columns">
+
         </div>
-        <div className="profile-content">
-          <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
-          <p> Miles Traveled&#58; {this.props.miles} </p>
-          <p> Trips Taken&#58; {this.props.trips} </p>
-          <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
+        <div className="small-6 columns">
+          <div className="profile-content small-10 columns">
+            <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
+            <p> Miles Traveled&#58; {this.props.miles} </p>
+            <p> Trips Taken&#58; {this.props.trips} </p>
+            <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
+          </div>
+          <div className="profile-gear small-2 columns">
+            <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
+          </div>
         </div>
-        <div className="profile-gear">
-          <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
+        <div className="landing-zone small-3 columns">
         </div>
       </div>
     )
@@ -89,38 +93,42 @@ var EditProfileInfo = React.createClass({
       var hometown = $('#editHometown').val()
       var favoriteloc = $('#editFavoritePlace').val()
     return (
-      <div className="profile-info">
-        <div className="profile-pic-edit">
-          <a href="#" className="camera"><i className="fi-camera"></i></a>
+      <div className="profile-info small-12 columns">
+        <div className="profile-pic-edit small-3 columns">
+          <a href="#" className="camera"><i className="fi-camera"></i>
+            <p>Upload</p>
+          </a>
         </div>
-        <div className="profile-content">
-        <div className="row">
-          <div className="large-12 small-centered columns">
-            <div className="row collapse">
-              <div className="small-3 columns">
-                  <span href="#" className="prefix">Name</span>
+        <div className="small-6 columns">
+          <div className="profile-content small-12 columns">
+            <div className="row">
+              <div className="large-12 small-centered columns">
+                <div className="row collapse">
+                  <div className="small-3 columns">
+                    <span href="#" className="prefix">Name</span>
+                  </div>
+                  <div className="small-9 columns">
+                    <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
+                  </div>
+                </div>
               </div>
-              <div className="small-9 columns">
-                <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
+            </div>
+            <div className="row">
+              <div className="large-12 small-centered columns">
+                <div className="row collapse">
+                  <div className="small-12 columns">
+                    <span href="#" className="prefix">Hometown</span>
+                  </div>
+                  <div className="small-7 columns">
+                    <input  id='editHometown_city' type="text" placeholder={this.props.hometown_city} name="user[hometown]"/>
+                  </div>
+                  <div className="small-5 columns">
+                    <input  id='editHometown_state' type="text" placeholder={this.props.hometown_state} name="user[hometown]"/>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <div className="row">
-        <div className="large-12 small-centered columns">
-          <div className="row collapse">
-            <div className="small-12 columns">
-                <span href="#" className="prefix">Hometown</span>
-            </div>
-            <div className="small-7 columns">
-              <input  id='editHometown_city' type="text" placeholder={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
-            </div>
-            <div className="small-5 columns">
-              <input  id='editHometown_state' type="text" placeholder={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
-            </div>
-          </div>
-        </div>
-      </div>
         </div>
         <div className="profile-options">
           <div className="profile-back">
