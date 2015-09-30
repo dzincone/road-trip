@@ -17,6 +17,10 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'foundation-rails'
 
+gem 'slick_rails'
+
+gem "browserify-rails"
+
 gem 'certified'
 
 gem 'rails_12factor', :groups => [:development, :production]
