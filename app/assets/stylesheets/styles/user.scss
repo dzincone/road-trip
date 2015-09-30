@@ -80,7 +80,7 @@ i.fi-camera {
 }
 
 .profile-content {
-  padding-left: 25px;
+  padding: 0;
   text-align: center;
   display: inline-block;
   p {
@@ -89,9 +89,10 @@ i.fi-camera {
 }
 
 .profile-gear {
+  padding: 0;
   display: inline-block;
   vertical-align: top;
-  text-align: center;
+  text-align: left;
 }
 
 .profile-options {

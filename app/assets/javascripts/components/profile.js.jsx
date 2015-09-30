@@ -43,9 +43,21 @@ var SettingsButtons = React.createClass({
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   doStuff: function () {
-    var name = $("#editName").val()
-    var hometown_city = $('#editHometown_city').val()
-    var hometown_state = $('#editHometown_state').val()
+    if ($("#editName").val() === ""){
+      var name = this.state.name
+    } else {
+      var name = $("#editName").val()
+    }
+    if ($('#editHometown_city').val() === "") {
+      var hometown_city = this.state.hometown_city
+    } else {
+      var hometown_city = $('#editHometown_city').val()
+    }
+    if($('#editHometown_state').val() === "") {
+      var hometown_state = this.state.hometown_state
+    } else {
+      var hometown_state = $('#editHometown_state').val()
+    }
     $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown_city]': hometown_city, 'user[hometown_state]': hometown_state, "_method": "patch"})
       .done(function (data) {
       })
@@ -89,9 +101,6 @@ var ProfileInfo = React.createClass({
 })
 var EditProfileInfo = React.createClass({
   render: function () {
-      var name = $('#editName').val()
-      var hometown = $('#editHometown').val()
-      var favoriteloc = $('#editFavoritePlace').val()
     return (
       <div className="profile-info small-12 columns">
         <div className="profile-pic-edit small-3 columns">
