@@ -1,0 +1,52 @@
+$white: #F4FFF8;
+$primary-color: #45233C;
+$primary: #78586F;
+$secondary-color: #7B9EA8;
+$black: #666;
+
+@import url(https://fonts.googleapis.com/css?family=Muli);
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Muli;
+  overflow: hidden;
+}
+
+body {
+  background: $secondary-color;
+  color: $white;
+  h1 {
+    color: $white;
+  }
+}
+
+span, i {
+  color: $white;
+}
+
+
+fieldset {
+  float: right;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: auto;
+}
+
+// *********************
+// ******Navbar********
+// *********************
+
+nav.top-bar {
+  background-color: $secondary-color;
+  a {
+    color: $white;
+  }
+}

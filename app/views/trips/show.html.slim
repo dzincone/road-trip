@@ -1,0 +1,18 @@
+div.hideMe
+  div#startLoc= @trip.start_location
+  div#endLoc= @trip.end_location
+  div#waypoints= @waypoints
+
+script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
+
+
+.sidebar.large-6.columns
+  =react_component('TripDashboard')
+
+.large-6.columns#map.map
+=react_component('GasInfo')
+
+div.hideMe
+  div#modal
+    h1 More Info
+    div#infocontent.moreinfo
