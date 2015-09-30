@@ -29,8 +29,12 @@ $third: #BCEBCB;
   z-index: 0;
 }
 
-i.fi-widget:hover {
+i.fi-widget{
   color: #73A0A9;
+}
+
+i.fi-widget:hover {
+  color: white;
 }
 
 i.fi-camera {

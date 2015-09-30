@@ -1,7 +1,7 @@
 var GasInfo = React.createClass({
   getInitialState: function () {
     return {
-      info: '',
+      gasDistance: '',
       lat: 0,
       long: 0
     }
@@ -31,6 +31,7 @@ var GasInfo = React.createClass({
     return (
       <div className="gasinfo">
         <i className="fa fa-car"></i><br></br>Closest Gas <br></br>{this.state.gasDistance}
+        {(this.state.gasDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
       </div>
     )
   }
