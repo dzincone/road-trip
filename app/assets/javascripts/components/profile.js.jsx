@@ -46,9 +46,6 @@ var SettingsButtons = React.createClass({
     var name = $("#editName").val()
     var hometown_city = $('#editHometown_city').val()
     var hometown_state = $('#editHometown_state').val()
-    // var favoriteloc = $('#editFavoritePlace').val()
-    // Removed from the post params, not sure if we are using it
-    // 'user[favorite_place]': favoriteloc,
     $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown_city]': hometown_city, 'user[hometown_state]': hometown_state, "_method": "patch"})
       .done(function (data) {
       })
@@ -58,13 +55,8 @@ var SettingsButtons = React.createClass({
   render: function() {
     return (
       <div className="profile-settings small-12 columns">
-        <div className="small-12 columns edit-pencil">
-          <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
-        </div>
-        <div className="small-12 columns">
-          {this.state.showResults ? <ProfileInfo miles={this.state.miles} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
-          <EditProfileInfo onClick={this.doStuff} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> }
-        </div>
+          {this.state.showResults ? <ProfileInfo toggle={this.toggleForm} miles={this.state.miles} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
+          <EditProfileInfo onClick={this.doStuff} toggle={this.toggleForm} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> }
       </div>
     )
   }
@@ -84,6 +76,9 @@ var ProfileInfo = React.createClass({
           <p> Trips Taken&#58; {this.props.trips} </p>
           <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
         </div>
+        <div className="profile-gear">
+          <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
+        </div>
       </div>
     )
   }
@@ -94,47 +89,53 @@ var EditProfileInfo = React.createClass({
       var hometown = $('#editHometown').val()
       var favoriteloc = $('#editFavoritePlace').val()
     return (
-        <div>
-          <div className="small-12">
-            <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
-            <br></br>
-            <a href="#" className="medium"><i className="fi-camera"></i></a>
-          </div>
-          <div className="row">
-            <div className="large-12 small-centered columns">
-              <div className="row collapse">
-                <div className="small-3 columns">
-                    <span href="#" className="prefix">Name</span>
-                </div>
-                <div className="small-9 columns">
-                  <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="profile-info">
+        <div className="profile-pic-edit">
+          <a href="#" className="camera"><i className="fi-camera"></i></a>
+        </div>
+        <div className="profile-content">
         <div className="row">
           <div className="large-12 small-centered columns">
             <div className="row collapse">
-              <div className="small-12 columns">
-                  <span href="#" className="prefix">Hometown</span>
+              <div className="small-3 columns">
+                  <span href="#" className="prefix">Name</span>
               </div>
-              <div className="small-7 columns">
-                <input  id='editHometown_city' type="text" placeholder={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
-              </div>
-              <div className="small-5 columns">
-                <input  id='editHometown_state' type="text" placeholder={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
+              <div className="small-9 columns">
+                <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
               </div>
             </div>
           </div>
         </div>
-          <div className="row">
-          <input type='hidden' name='_method' value='patch'/>
-          <button className='button small' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
-          </div>
-          <div className="row">
-            <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className="delete">Delete Account</a>
+      <div className="row">
+        <div className="large-12 small-centered columns">
+          <div className="row collapse">
+            <div className="small-12 columns">
+                <span href="#" className="prefix">Hometown</span>
+            </div>
+            <div className="small-7 columns">
+              <input  id='editHometown_city' type="text" placeholder={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
+            </div>
+            <div className="small-5 columns">
+              <input  id='editHometown_state' type="text" placeholder={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
+            </div>
           </div>
         </div>
+      </div>
+        </div>
+        <div className="profile-options">
+          <div className="profile-back">
+          <a href="#" onClick={this.props.toggle}>Back</a>
+          </div>
+          <div>
+            <input type='hidden' name='_method' value='patch'/>
+            <button className='button small' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
+            </div>
+              <div className="row">
+                <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className="delete">Delete Account</a>
+              </div>
+        </div>
+      </div>
+
     )
   }
 })
