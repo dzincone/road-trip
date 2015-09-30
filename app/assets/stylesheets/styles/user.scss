@@ -170,39 +170,21 @@ i.fi-camera {
   text-align: center;
   margin-top: 10px;
 }
-ul.polaroids {
+
+.trip-tile {
+  text-align: center;
+}
+.polaroids {
   margin: 0;
   padding: 0;
   text-align: center;
-  li {
-    background-color: $white;
-    -webkit-transition: -webkit-transform .15s linear;
-    width: 35%;
-    height: 250px;
-    margin: 1%;
-    display: inline-block;
-    vertical-align: top;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
-    span{
-      color: $primary;
-    }
-  }
-  li:hover {
-    -webkit-transition: -webkit-transform .15s linear;
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    position: relative;
-    z-index: 5;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 1);
-  }
-  img {
-   height: 90%;
-   width: 90%;
-   margin: 5%
-  }
-  p {
-    text-align: center;
-  }
+  background-color: $white;
+  -webkit-transition: -webkit-transform .15s linear;
+  display: inline-block;
+  margin: 1%;
+  width: 10%;
+  height: 250px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
 }
 
 

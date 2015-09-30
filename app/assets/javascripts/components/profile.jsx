@@ -1,4 +1,5 @@
 var React = require('react');
+var GasInfo = require('./gas')
 
 var SettingsButtons = React.createClass({
   getInitialState: function() {
@@ -172,97 +173,5 @@ var EditProfileInfo = React.createClass({
   }
 })
 
-
-
-
-var NewTripButton = React.createClass({
-	handleClick: function(e){
-		if(e && typeof e.preventDefault == 'function') {
-			e.preventDefault();
-		}
-		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-		var reveal = $('<div class="newTrip reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
-		$(reveal).foundation().foundation('reveal', 'open');
-		$(reveal).bind('closed.fndtn.reveal', function(e){
-      React.unmountComponentAtNode(this);
-    });
-
-		if(React.isValidElement(this.props.revealContent)) {
-			React.render(this.props.revealContent, $('#modal')[0]);
-		}
-		else {
-			$('#modal').append(this.props.revealContent);
-		}
-	},
-	render: function(){
-		return (
-			<div className="new-trip">
-        <button class='new-trip button tiny' onClick={this.handleClick}><span className='fi-plus'></span> Create New Trip</button>
-			</div>
-		);
-	}
-});
-
-
-var GetTiles = React.createClass({
-  getInitialState: function(){
-    return {
-      value: "",
-      sortBy: "id",
-      sortProp: "Date Created",
-      asc: 1,
-      sortOrder: "Ascending"}
-  },
-  componentDidMount: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
-      if(this.isMounted()){
-        this.setState({
-          value: results
-        })
-      }
-    }.bind(this))
-  },
-  render: function () {
-    var trips = this.state.value
-    var allTrips = []
-    for (var i = 0; i < trips.length; i++) {
-      allTrips.push(<TripTile key={trips[i].id} data={trips[i]}/>)
-    }
-    return (
-      <div>
-        <NewTripButton />
-          <div className="carousal small-12 columns">
-          <div className="arrow-left small-1 columns">
-            <a href="#"><i fid="edit-intro" className='fi-arrow-left edit-profile' onClick={this.props.toggle}></i></a>
-          </div>
-          <div className="trip-tile small-10 columns">
-            <ul className="polaroids">
-              {allTrips}
-            </ul>
-          </div>
-          <div className="arrow-right small-1 columns">
-            <a href="#"><i fid="edit-intro" className='fi-arrow-right edit-profile' onClick={this.props.toggle}></i></a>
-          </div>
-          </div>
-      </div>
-    );
-  }
-})
-
-var TripTile = React.createClass({
-  render: function () {
-    return (
-      <li>
-          <div className={this.props.data.finished ? "finished" : undefined}>
-            <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
-              <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
-              <p className="trip-name">{this.props.data.name}</p>
-            </a>
-              <p className="trip-name">{this.props.data.finished ? "(finished)" : null}</p>
-          </div>
-      </li>
-    )
-  }
-})
 
 module.exports = SettingsButtons

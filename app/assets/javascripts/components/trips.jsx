@@ -7,126 +7,18 @@ var eventIcons = {
 }
 
 var TripDashboard = React.createClass({
-  getInitialState: function(){
-    return {
-      status: 1,
-      trip: "",
-      destinations: [],
-      finished: false,
-      lat: 0,
-      long: 0,
-      posts: "",
-      showResults: false
-    }
-  },
-  componentDidMount: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-      if(this.isMounted()){
-        var events = results.events
-        var temp = results.destinations.splice(1, 1)
-        results.destinations = results.destinations.concat(temp)
-        var destinations = results.destinations.map(function (e) {
-          var destEvents = []
-          events.forEach(function (event) {
-            if (event.destination_id === e.id){
-              destEvents.push(event);
-            }
-          })
-          return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
-        });
-        this.setState({
-          trip: results,
-          destinations: destinations,
-          finished: results.finished
-        })
-      }
-    }.bind(this))
-  },
-  getTripInfo: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-      if(this.isMounted()){
-        var events = results.events
-        var temp = results.destinations.splice(1, 1)
-        results.destinations = results.destinations.concat(temp)
-        var destinations = results.destinations.map(function (e) {
-          var destEvents = []
-          events.forEach(function (event) {
-            if (event.destination_id === e.id){
-              destEvents.push(event);
-            }
-          })
-          return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
-        });
-        this.setState({
-          trip: results,
-          destinations: destinations,
-          finished: results.finished
-        })
-      }
-    }.bind(this))
-  },
-  newBlogPost: function(){
-    this.onClick()
-    var latitude = $("#bloglatitude").val()
-    var longitude = $('#bloglongitude').val()
-    var title = $('#blogtitle').val()
-    var content = $('#blogcontent').val()
-    $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts',
-      {'post[latitude]': latitude, 'post[longitude]': longitude, 'post[title]': title, 'post[content]': content, "_method": "post"})
-      .done(function(data){
-      })
-      this.blogs()
-      this.getTripInfo()
-  },
-  itinerary: function(){
-    this.setState({
-      status: 1
-    })
-  },
-  onClick: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-  },
-  blogs: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude
-        })
-      }
-    }.bind(this))
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(data){
-        this.setState({
-          posts: data,
-          status: 2
-        })
-    }.bind(this))
-  },
-  activities: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude
-        })
-      }
-    }.bind(this))
-    this.setState({
-      status: 3
-    })
-  },
   render: function(){
     return(
       <div>
         <ul className="tabs" data-tab>
-          <li className="tab-title small-4 active"><a href="#panel1" onClick={this.itinerary}>Itinerary</a></li>
-          <li className="tab-title small-4"><a href="#panel2" onClick={this.blogs}>Blog</a></li>
-          <li className="tab-title small-4"><a href="#panel3" onClick={this.activities}>Activities</a></li>
+          <li className="tab-title small-4 active"><a href="#panel1" onClick={this.props.itinerary}>Itinerary</a></li>
+          <li className="tab-title small-4"><a href="#panel2" onClick={this.props.blogs}>Blog</a></li>
+          <li className="tab-title small-4"><a href="#panel3" onClick={this.props.activities}>Activities</a></li>
         </ul>
         <div>
-          {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
-           <Activities lat={this.state.lat} long={this.state.long} finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
-            <BlogCarousel showResults={this.state.showResults} onClick={this.onClick} lat={this.state.lat} long={this.state.long} posts={this.state.posts} newBlogPost={this.newBlogPost}/> }
+          {this.props.status === 1 ? <Itinerary finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/> : this.props.status === 3 ?
+           <Activities lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
+            <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
          </div>
       </div>
     )
@@ -551,3 +443,5 @@ var MoreInfoModalButton = React.createClass({
 		);
 	}
 });
+
+module.exports = TripDashboard

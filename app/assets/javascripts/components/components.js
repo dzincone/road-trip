@@ -6,3 +6,4 @@ var Slider = require('react-slick');
 
 SimpleSlider = require('./slider.jsx')
 SettingsButtons = require('./profile.jsx')
+GetTiles = require('./triptiles.jsx')

@@ -38,3 +38,5 @@ var GasInfo = React.createClass({
     )
   }
 })
+
+module.exports = GasInfo
