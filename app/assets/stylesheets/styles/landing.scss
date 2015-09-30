@@ -1,0 +1,64 @@
+$white: #F4FFF8;
+$primary-color: #45233C;
+$primary: #78586F;
+$secondary-color: #7B9EA8;
+$black: #666;
+// *********************
+// ******Landing********
+// *********************
+
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+}
+
+.about-us {
+  margin-top: 15vh;
+  width: 40%;
+  min-height: 300px;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: rgba($secondary-color, 0.85);
+  color: $white;
+  & a {
+    font-size: 1.5em;
+  }
+  .reverse {
+    z-index: 20;
+    position: absolute;
+    margin-left: 25%;
+  }
+  h1 {
+    color: $white;
+  }
+  label {
+    color: $white;
+  }
+}
+
+
+.landingPage {
+  margin: 0;
+  padding: 0;
+  height: 94%;
+}
+
+.landing-buttons {
+  text-align: center;
+}
+
+ul.right li.login-form {
+  background-color: $secondary-color;
+}
+
+.preview.reveal-modal {
+  width: 620px;
+  height: 465px;
+  h1 {
+    color: $primary;
+  }
+}
