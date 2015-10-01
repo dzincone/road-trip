@@ -20,7 +20,7 @@ var TripDashboard = React.createClass({
             <Itinerary finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
           </div>
           <div className="small-6 columns">
-            {this.props.status === 3 ? <Activities lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
+            {this.props.status === 3 ? <Activities currentTrip={this.props.currentTrip} lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
               <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
           </div>
          </div>
@@ -245,7 +245,7 @@ var Activities = React.createClass({
           }, this)}
         </div>
         <div className='large-8 columns'>
-          <PlacesForm getTripInfo={this.props.updateTrip}/>
+          <PlacesForm currentTrip={this.props.currentTrip} getTripInfo={this.props.updateTrip}/>
         </div>
       </div>
     )
@@ -345,7 +345,7 @@ var PlacesForm = React.createClass({
             <label>Activities</label>
           </a>
         </div>
-        <PlacesResults getTripInfo={this.props.getTripInfo} results={this.state.searchResults}/>
+        <PlacesResults currentTrip={this.props.currentTrip} getTripInfo={this.props.getTripInfo} results={this.state.searchResults}/>
       </div>
     )
   }
@@ -369,7 +369,7 @@ var PlacesResults = React.createClass({
   saveEvent: function (placeId, name) {
     var destinationId = $('#destinationid').html();
     var category = $('#category').html();
-    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + this.props.currentTrip + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
       this.props.getTripInfo();
       if(this.isMounted()){
         this.setState({

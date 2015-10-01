@@ -165,7 +165,7 @@ var UserComponent = React.createClass({
       <div>
       {this.state.toggle ? <GetTiles oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
       finished={this.state.finished} /> :
-      <TripDashboard onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
+      <TripDashboard currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
       lat={this.state.lat} long={this.state.long} showresults={this.state.showresults}
       itinerary={this.itinerary} blogs={this.blogs}
       activities={this.activities} trip={this.state.trip} destinations={this.state.destinations}
