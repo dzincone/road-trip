@@ -1,4 +1,3 @@
-
 var eventIcons = {
   'restaurant': 'fa fa-cutlery',
   'lodging': 'fa fa-bed',

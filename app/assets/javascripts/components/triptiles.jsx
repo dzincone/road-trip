@@ -3,6 +3,7 @@ var NewTripButton = require('./newtripbutton.jsx')
 var Slider = require('react-slick');
 var TripDashboard = require('./trips.jsx')
 
+
 var eventIcons = {
   'restaurant': 'fa fa-cutlery',
   'lodging': 'fa fa-bed',
