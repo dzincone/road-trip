@@ -23,7 +23,8 @@ var UserComponent = React.createClass({
       long: 0,
       posts: "",
       showResults: false,
-      toggle: true}
+      toggle: true,
+      currentTrip: ""}
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -43,30 +44,36 @@ var UserComponent = React.createClass({
         })
       }
     }.bind(this));
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-      if(this.isMounted()){
-        var events = results.events
-        var temp = results.destinations.splice(1, 1)
-        results.destinations = results.destinations.concat(temp)
-        var destinations = results.destinations.map(function (e) {
-          var destEvents = []
-          events.forEach(function (event) {
-            if (event.destination_id === e.id){
-              destEvents.push(event);
-            }
+  },
+  oneTrip: function(id){
+    console.log(id);
+    this.toggled()
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + id + '.json', function(results){
+      console.log("here are the results", results);
+        if(this.isMounted()){
+          var events = results.events
+          var temp = results.destinations.splice(1, 1)
+          results.destinations = results.destinations.concat(temp)
+          var destinations = results.destinations.map(function (e) {
+            var destEvents = []
+            events.forEach(function (event) {
+              if (event.destination_id === e.id){
+                destEvents.push(event);
+              }
+            })
+            return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
+          });
+          this.setState({
+            currentTrip: results.id,
+            trip: results,
+            destinations: destinations,
+            finished: results.finished
           })
-          return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
-        });
-        this.setState({
-          trip: results,
-          destinations: destinations,
-          finished: results.finished
-        })
-      }
-    }.bind(this))
+        }
+      }.bind(this))
   },
   getTripInfo: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.state.currentTrip + '.json', function(results){
       if(this.isMounted()){
         var events = results.events
         var temp = results.destinations.splice(1, 1)
@@ -114,6 +121,12 @@ var UserComponent = React.createClass({
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   blogs: function(){
+    if(!$('#tab-blog').hasClass('active')){
+      $('#tab-blog').addClass('active');
+    }
+    if($('#tab-activity').hasClass('active')){
+      $('#tab-activity').removeClass('active')
+    }
     navigator.geolocation.getCurrentPosition(function (position) {
       if(this.isMounted()){
         this.setState({
@@ -130,7 +143,12 @@ var UserComponent = React.createClass({
     }.bind(this))
   },
   activities: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
+  if(!$('#tab-activity').hasClass('active')){
+    $('#tab-activity').addClass('active');
+  }
+  if($('#tab-blog').hasClass('active')){
+    $('#tab-blog').removeClass('active')
+  }    navigator.geolocation.getCurrentPosition(function (position) {
       if(this.isMounted()){
         this.setState({
           lat: position.coords.latitude,
@@ -145,9 +163,9 @@ var UserComponent = React.createClass({
   render: function(){
     return (
       <div>
-      {this.state.toggle ? <GetTiles toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} /> :
-      <TripDashboard toggled={this.toggled} toggle={this.state.toggle}
-      onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
+      {this.state.toggle ? <GetTiles oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
+      finished={this.state.finished} /> :
+      <TripDashboard onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
       lat={this.state.lat} long={this.state.long} showresults={this.state.showresults}
       itinerary={this.itinerary} blogs={this.blogs}
       activities={this.activities} trip={this.state.trip} destinations={this.state.destinations}
@@ -163,7 +181,7 @@ var GetTiles = React.createClass({
     var trips = this.props.value
     var allTrips = []
     for (var i = 0; i < trips.length; i++) {
-      allTrips.push(<TripTile toggled={this.props.toggled} toggle={this.props.toggle} key={trips[i].id} data={trips[i]}/>)
+      allTrips.push(<TripTile oneTrip={this.props.oneTrip} key={trips[i].id} data={trips[i]}/>)
     }
     var settings = {
       dots: true,
@@ -189,8 +207,9 @@ var TripTile = React.createClass({
     // {'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }
     return (
         <div className="polaroids small-3 columns">
+          <input type="hidden" value={this.props.data.id} />
           <div className={this.props.data.finished ? "finished" : undefined}>
-            <a onClick={this.props.toggled} href="#">
+            <a onClick={this.props.oneTrip.bind(null, this.props.data.id)} href="#">
               <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
               <p className="trip-name">{this.props.data.name}</p>
             </a>

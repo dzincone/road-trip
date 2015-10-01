@@ -11,14 +11,18 @@ var TripDashboard = React.createClass({
     return(
       <div>
         <ul className="tabs" data-tab>
-          <li className="tab-title small-4 active"><a href="#panel1" onClick={this.props.itinerary}>Itinerary</a></li>
-          <li className="tab-title small-4"><a href="#panel2" onClick={this.props.blogs}>Blog</a></li>
-          <li className="tab-title small-4"><a href="#panel3" onClick={this.props.activities}>Activities</a></li>
+          <li className="tab-title small-6 active"><a href="#">Itinerary</a></li>
+          <li className="tab-title small-3"><a href="#panel2" id="tab-blog" onClick={this.props.blogs}>Blog</a></li>
+          <li className="tab-title small-3"><a href="#panel3" id="tab-activity" onClick={this.props.activities}>Activities</a></li>
         </ul>
-        <div>
-          {this.props.status === 1 ? <Itinerary finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/> : this.props.status === 3 ?
-           <Activities lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
-            <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
+        <div className="tab-content small-12 columns">
+          <div className="itinerary small-6 columns">
+            <Itinerary finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
+          </div>
+          <div className="small-6 columns">
+            {this.props.status === 3 ? <Activities lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
+              <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
+          </div>
          </div>
       </div>
     )
@@ -65,8 +69,7 @@ var newPostButton = React.createClass({
   render: function() {
     return (
       <div>
-      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-
+        <button className="small" onClick={this.onClick}><span className='fi-pencil'></span> Add new blog post</button>
       </div>
     );
   }
@@ -82,7 +85,7 @@ var NewDestinationButton = React.createClass({
   render: function() {
     return (
       <div>
-      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add a new trip destination</button>
+        <button className="small" onClick={this.onClick} ><span className='fi-pencil'></span> Add a new trip destination</button>
       { this.state.showResults ? <NewDestinationForm /> : null }
       </div>
     );
@@ -118,8 +121,8 @@ var DisplayPosts = React.createClass({
 var BlogCarousel = React.createClass({
   render: function () {
     return (
-      <div>
-      <button  onClick={this.props.onClick} ><span className='fi-pencil'></span> {this.props.showResults ? "Show my blogs" : "Add new blog post"}</button>
+      <div className="new-trip">
+      <button className="small" onClick={this.props.onClick} ><span className='fi-pencil'></span> {this.props.showResults ? "Show my blogs" : "Add new blog post"}</button>
       { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : <DisplayPosts posts={this.props.posts} />}
       </div>
     )
@@ -173,15 +176,18 @@ var Itinerary = React.createClass({
       var dest = destinationsPath.replace(/ /g, "+")
     return (
       <div className="itinerary">
-        {<NewDestinationButton />}
-        <h1>{trip.name}</h1>
+        <div className="new-trip">
         <a href={'https://www.google.com/maps/dir' + dest} target='_blank' className='button tiny'>Get Directions</a>
+        </div>
         <h3>Started in {trip.start_location}</h3>
         {this.props.destinations.map(function (e) {
           return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
         <h3>Ended in {trip.end_location}</h3>
-        <button onClick={this.finished}> {this.props.finished ? "Finished!" : "Mark as Finished"}</button>
+        {<NewDestinationButton />}
+        <div className="new-trip">
+          <button className="medium" onClick={this.finished}> {this.props.finished ? "Finished!" : "Mark as Finished"}</button>
+        </div>
       </div>
     )
   }

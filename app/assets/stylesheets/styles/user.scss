@@ -9,12 +9,52 @@ $third: #BCEBCB;
 // ******User***********
 // *********************
 
+#tab-activity.active {
+  background-color: $secondary-color;
+  color: white;
+}
+
+#tab-blog.active {
+  background-color: $secondary-color;
+  color: white;
+}
+.tab-title .itinerary {
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+}
+.itinerary {
+  padding: 0;
+  margin: 0;
+  border-right: 1px solid $secondary-color;
+  height: 100vh;
+  h3 {
+    font-size: 1.2em;
+  }
+}
+
+.tab-content {
+  background-color: $primary-color;
+  height: 100vh;
+}
 
 .sidebar {
   padding: 0;
   height: 100vh;
-  ul.tabs li.tab-title a {
-    color: $black;
+  ul.tabs {
+    text-align: center;
+    background-color: white;
+    color: black;
+  }
+  li.tab-title a {
+    background-color: #E1E1E1;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+    color: #333333;
+    &:hover {
+      background-color: $secondary-color;
+    }
   }
 }
 
