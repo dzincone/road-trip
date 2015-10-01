@@ -83,10 +83,10 @@ var NewDestinationButton = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <button className="small" onClick={this.onClick} ><span className='fi-pencil'></span> Add a new trip destination</button>
+      <span>
+        <button className="tiny" onClick={this.onClick} ><span className='fi-pencil'></span> Add a Stop</button>
       { this.state.showResults ? <NewDestinationForm /> : null }
-      </div>
+      </span>
     );
   }
 });
@@ -119,6 +119,8 @@ var DisplayPosts = React.createClass({
 })
 var BlogCarousel = React.createClass({
   render: function () {
+      console.log(this.props.showResults);
+
     return (
       <div className="new-trip">
       <button className="small" onClick={this.props.onClick} ><span className='fi-pencil'></span> {this.props.showResults ? "Show my blogs" : "Add new blog post"}</button>
@@ -177,15 +179,13 @@ var Itinerary = React.createClass({
       <div className="itinerary">
         <div className="new-trip">
         <a href={'https://www.google.com/maps/dir' + dest} target='_blank' className='button tiny'>Get Directions</a>
+        {<NewDestinationButton />}
         </div>
-        <h3>Started in {trip.start_location}</h3>
         {this.props.destinations.map(function (e) {
           return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
-        <h3>Ended in {trip.end_location}</h3>
-        {<NewDestinationButton />}
-        <div className="new-trip">
-          <button className="medium" onClick={this.finished}> {this.props.finished ? "Finished!" : "Mark as Finished"}</button>
+        <div>
+          <button className="tiny" onClick={this.finished}> {this.props.finished ? "Trip is Finished!" : "End Trip?"}</button>
         </div>
       </div>
     )
@@ -220,7 +220,7 @@ var Activities = React.createClass({
           <div id='destinationid' className='hidden'></div>
           <div id='category' className='hidden'></div>
         </div>
-        <div className='large-4 columns'>
+        <div className='small-4 columns'>
           <label for="range">Distance (Miles)</label>
           <select className="small" id="range" name="range">
             <option value="1600">1</option>
@@ -243,7 +243,7 @@ var Activities = React.createClass({
             return (<Destination onClick={this.onClick} getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
-        <div className='large-8 columns'>
+        <div className='small-8 columns'>
           <PlacesForm currentTrip={this.props.currentTrip} getTripInfo={this.props.updateTrip}/>
         </div>
       </div>
@@ -290,14 +290,14 @@ var ItineraryListing = React.createClass({
   render: function () {
     var eventList = this.props.events.map(function (e) {
       return (<div className="eventlisting">
-                <div className="large-7 columns">
+                <div className="small-7 columns">
                   <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
                   {e.name}&nbsp;&nbsp;
                 </div>
-                <div className="large-3 columns">
+                <div className="small-3 columns">
                   <MoreInfoModalButton className="inline" placeid={e.place_id}/>
                 </div>
-                <div className="large-2 columns">
+                <div className="small-2 columns">
                   <i onClick={this.deleteEvent.bind(this, e.id)} className="fa fa-close right"></i>&nbsp;
                 </div>
               </div>)
@@ -381,11 +381,11 @@ var PlacesResults = React.createClass({
     if (this.props.results.data){
       var listings = this.props.results.data.results.map(function (result) {
         return (<div className="placesresult clear">
-                  <div className="large-7 columns">
+                  <div className="small-7 columns">
                     <button type='submit' onClick={this.saveEvent.bind(this, result.place_id, result.name)} className="button tiny success">Save</button>
                     <MoreInfoModalButton className="inline" placeid={result.place_id}/>
                   </div>
-                  <div className="large-5 columns">
+                  <div className="small-5 columns">
                     <h5 className="inline">{result.name}</h5>
                   </div>
                 </div>);

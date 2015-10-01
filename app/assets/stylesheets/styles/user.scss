@@ -36,6 +36,13 @@ $third: #BCEBCB;
 .tab-content {
   background-color: $primary-color;
   height: 100vh;
+  padding-right: 0;
+  .small-6 {
+    padding: 0;
+    .small-8 {
+      padding: 0;
+    }
+  }
 }
 
 .sidebar {
@@ -209,6 +216,9 @@ i.fi-camera {
 .new-trip {
   text-align: center;
   margin-top: 10px;
+  a, button {
+    margin-right: 10px;
+  }
 }
 
 .trip-tile {

@@ -47,7 +47,6 @@ var UserComponent = React.createClass({
     }.bind(this));
   },
   oneTrip: function(id){
-    console.log(id);
     this.toggled()
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + id + '.json', function(results){
       console.log("here are the results", results);
@@ -102,7 +101,7 @@ var UserComponent = React.createClass({
     var longitude = $('#bloglongitude').val()
     var title = $('#blogtitle').val()
     var content = $('#blogcontent').val()
-    $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts',
+    $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+ this.state.currentTrip +'/posts',
       {'post[latitude]': latitude, 'post[longitude]': longitude, 'post[title]': title, 'post[content]': content, "_method": "post"})
       .done(function(data){
       })
@@ -136,7 +135,7 @@ var UserComponent = React.createClass({
         })
       }
     }.bind(this))
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(data){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.state.currentTrip + '/posts', function(data){
         this.setState({
           posts: data,
           status: 2
@@ -167,7 +166,7 @@ var UserComponent = React.createClass({
       {this.state.toggle ? <GetTiles oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
       finished={this.state.finished} /> :
       <TripDashboard currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
-      lat={this.state.lat} long={this.state.long} showresults={this.state.showresults}
+      lat={this.state.lat} long={this.state.long} showResults={this.state.showResults}
       itinerary={this.itinerary} blogs={this.blogs}
       activities={this.activities} trip={this.state.trip} destinations={this.state.destinations}
       getTripInfo={this.getTripInfo} finished={this.state.finished} status={this.state.status} />}
