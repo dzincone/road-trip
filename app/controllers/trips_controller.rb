@@ -62,6 +62,87 @@ class TripsController < ApplicationController
     render :json => {:data => distance}
   end
 
+  def cafe_info
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/radarsearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=cafe&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response1 = http.request(req)
+    res1 = JSON.parse(response1.body)
+    distanceHash = {}
+    distanceArr = res1['results'].map do |e|
+      dist = ((params[:lat].to_f - e['geometry']['location']['lat'].to_f)**2 + (params[:lng].to_f - e['geometry']['location']['lng'].to_f)**2)**0.5
+      distanceHash[dist] = e['place_id']
+      dist
+    end
+    distanceArr = distanceArr.sort
+    cafe_place_id = distanceHash[distanceArr[0]]
+
+
+    url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{cafe_place_id}&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
+    res2 = JSON.parse(response2.body)
+    distance = res2['routes'][0]['legs'][0]['distance']['text']
+    render :json => {:data => distance}
+  end
+
+  def liquor_info
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/radarsearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=liquor_store&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response1 = http.request(req)
+    res1 = JSON.parse(response1.body)
+    distanceHash = {}
+    distanceArr = res1['results'].map do |e|
+      dist = ((params[:lat].to_f - e['geometry']['location']['lat'].to_f)**2 + (params[:lng].to_f - e['geometry']['location']['lng'].to_f)**2)**0.5
+      distanceHash[dist] = e['place_id']
+      dist
+    end
+    distanceArr = distanceArr.sort
+    liquor_place_id = distanceHash[distanceArr[0]]
+
+
+    url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{liquor_place_id}&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
+    res2 = JSON.parse(response2.body)
+    distance = res2['routes'][0]['legs'][0]['distance']['text']
+    render :json => {:data => distance}
+  end
+
+  def camp_info
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/radarsearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=campground&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response1 = http.request(req)
+    res1 = JSON.parse(response1.body)
+    distanceHash = {}
+    distanceArr = res1['results'].map do |e|
+      dist = ((params[:lat].to_f - e['geometry']['location']['lat'].to_f)**2 + (params[:lng].to_f - e['geometry']['location']['lng'].to_f)**2)**0.5
+      distanceHash[dist] = e['place_id']
+      dist
+    end
+    distanceArr = distanceArr.sort
+    camp_place_id = distanceHash[distanceArr[0]]
+
+
+    url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{camp_place_id}&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
+    res2 = JSON.parse(response2.body)
+    distance = res2['routes'][0]['legs'][0]['distance']['text']
+    render :json => {:data => distance}
+  end
+
   def finished
     @trip = Trip.find(params[:id])
     @user = User.find(current_user.id)

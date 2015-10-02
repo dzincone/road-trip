@@ -5,6 +5,10 @@ $secondary-color: #7B9EA8;
 $black: #666;
 $third: #BCEBCB;
 
+button {
+  border-radius: 2px;
+}
+
 // *********************
 // ******User***********
 // *********************
@@ -21,28 +25,60 @@ $third: #BCEBCB;
 .tab-title .itinerary {
     padding-top: 2px;
     padding-bottom: 2px;
-
 }
-.itinerary {
+#map {
+  height: 100%;
+}
+
+.map {
+  height: 400px;
+}
+
+.find-now {
+  margin-top: 10px;
+}
+
+.tabs-profile {
   padding: 0;
-  margin: 0;
-  border-right: 1px solid $secondary-color;
-  height: 100vh;
+  .small-5, .small-6, .small-7 {
+    padding: 0;
+  }
+}
+
+.trip-options {
+  background-color: rgba(#F3F1EE, 0.3);
   h3 {
     font-size: 1.2em;
   }
 }
+.itinerary {
+  background-color: $primary-color;
+  padding: 0;
+  margin: 0;
+  border-right: 1px solid $secondary-color;
+  height: 100%;
+  h3 {
+    font-size: 1.2em;
+    padding-left: 20px;
+  }
+}
+
+.itinerary-finished{
+  padding-left: 20px;
+}
 
 .tab-content {
-  background-color: $primary-color;
   height: 100vh;
-  padding-right: 0;
+  padding: 0;
   .small-6 {
     padding: 0;
     .small-8 {
       padding: 0;
     }
   }
+}
+.sidebar-profile {
+  padding: 0;
 }
 
 .sidebar {
@@ -76,6 +112,12 @@ $third: #BCEBCB;
   z-index: 0;
 }
 
+.destination-list {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
 i.fi-widget{
   color: #73A0A9;
 }
@@ -93,7 +135,8 @@ i.fi-camera {
   text-align: center;
   display: inline-block;
   vertical-align: top;
-  padding-bottom: 20px;
+  padding-bottom: 8px;
+  margin-top: 10px;
   a {
   color: white;
   }
@@ -158,14 +201,21 @@ i.fi-camera {
   padding: 0;
   width: 100%;
   display: inline-block;
+  .row {
+    margin-top: 10px;
+  }
+  input {
+    margin-bottom: 0;
+  }
+  button {
+    margin-bottom: 0;
+  }
 }
 
 .profile {
   margin: 0;
   padding: 0;
-  padding-left: 15px;
   width: 100%;
-  min-height: 200px;
   background-color: transparentize(#000, 0.6);
 }
 
@@ -173,8 +223,8 @@ i.fi-camera {
 .profile-settings {
   margin: 0;
   padding: 0;
-  margin-top: 5%;
-  margin-bottom: 3%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 
@@ -232,7 +282,7 @@ i.fi-camera {
   -webkit-transition: -webkit-transform .15s linear;
   display: inline-block;
   margin: 1%;
-  width: 10%;
+  width: 200px;
   height: 250px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
 }
@@ -244,9 +294,66 @@ li {
 
 .gasinfo{
   text-align: center;
-  border: solid #73A0A9 3px;
+  border: solid #00C3D9 3px;
   border-radius: 3px;
   color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #00C3D9;
+  }
+}
+
+.cafeinfo{
+  text-align: center;
+  border: solid #4BC52F 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #4BC52F;
+  }
+}
+
+.liquorinfo{
+  text-align: center;
+  border: solid #F1EC02 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #F1EC02;
+  }
+}
+
+.campinfo{
+  text-align: center;
+  border: solid #FF2839 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #FF2839;
+  }
 }
 
 .newTrip.reveal-modal {

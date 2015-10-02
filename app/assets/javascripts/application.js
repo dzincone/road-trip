@@ -36,6 +36,7 @@ $(function(){ $(document).foundation(); });
 var totalDist;
 var map;
 function initMap() {
+  console.log("Here is the mpa please work!");
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -52,13 +53,15 @@ function initMap() {
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   var waypts = [];
-  var waypointsArr = JSON.parse($('#waypoints').html());
-  console.log(waypointsArr);
-  for (var i = 2; i < waypointsArr.length; i++) {
+    console.log(waypointsArr, "what what what??");
+
+  var waypointsArr = ($('#waypoints').html().split("/").pop());
+  for (var i = 3; i < waypointsArr.length; i++) {
     waypts.push({
       location: waypointsArr[i],
       stopover: true
     });
+    console.log(waypts, "lkajsdflkjasdfjl a djsflk ajdslkf j");
   }
 
   directionsService.route({

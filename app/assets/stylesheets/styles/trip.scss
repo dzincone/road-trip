@@ -53,8 +53,7 @@ text-align: left;
   }
 }
 .searchresultlistings, .itinerary, .display-posts{
-  overflow-y: scroll;
-  max-height: 450px;
+  overflow: scroll;
 }
 .post-container {
   h1 {
@@ -80,8 +79,8 @@ i {
 
 .new-trip.button.tiny{
   outline: none;
-  margin-left: 5%;
   border-radius: 2px;
+  margin-bottom: 0;
 }
 
 .display-posts {

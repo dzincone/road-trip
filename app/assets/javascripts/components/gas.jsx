@@ -4,6 +4,9 @@ var GasInfo = React.createClass({
   getInitialState: function () {
     return {
       gasDistance: '',
+      cafeDistance: '',
+      liquorDistance: '',
+      campDistance: '',
       lat: 0,
       long: 0
     }
@@ -16,6 +19,9 @@ var GasInfo = React.createClass({
           long: position.coords.longitude
         })
         this.getGasInfo(position.coords.latitude, position.coords.longitude);
+        this.getCafeInfo(position.coords.latitude, position.coords.longitude);
+        this.getLiquorInfo(position.coords.latitude, position.coords.longitude);
+        this.getCampInfo(position.coords.latitude, position.coords.longitude);
       }
     }.bind(this))
   },
@@ -29,11 +35,76 @@ var GasInfo = React.createClass({
       }
     }.bind(this))
   },
+  getCafeInfo: function (lat, long) {
+    $.get('/cafe_info?lat='+lat+'&lng='+long, function(results){
+      if(this.isMounted()){
+        var distance = results
+        this.setState({
+          cafeDistance: distance
+        })
+      }
+    }.bind(this))
+  },
+  getLiquorInfo: function (lat, long) {
+    $.get('/liquor_info?lat='+lat+'&lng='+long, function(results){
+      if(this.isMounted()){
+        var distance = results
+        this.setState({
+          liquorDistance: distance
+        })
+      }
+    }.bind(this))
+  },
+    getCampInfo: function (lat, long) {
+      $.get('/camp_info?lat='+lat+'&lng='+long, function(results){
+        if(this.isMounted()){
+          var distance = results
+          this.setState({
+            campDistance: distance
+          })
+        }
+      }.bind(this))
+    },
   render: function () {
     return (
-      <div className="gasinfo">
-        <i className="fa fa-car"></i><br></br>Closest Gas <br></br>{this.state.gasDistance}
-        {(this.state.gasDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
+      <div className="small-12 columns">
+
+        <div className="small-3 columns">
+          <div className="gasinfo">
+            <i className="fa fa-car"></i>
+            <p>Gas</p>
+            <p>{this.state.gasDistance}</p>
+            {(this.state.gasDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
+          </div>
+        </div>
+
+        <div className="small-3 columns">
+          <div className="liquorinfo">
+            <i className="fa fa-beer"></i>
+            <p>Spirits</p>
+            <p>{this.state.liquorDistance}</p>
+            {(this.state.liquorDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
+          </div>
+        </div>
+
+        <div className="small-3 columns">
+          <div className="campinfo">
+            <i className="fa fa-fire"></i>
+            <p>Campground</p>
+            <p>{this.state.campDistance}</p>
+            {(this.state.campDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
+          </div>
+        </div>
+
+        <div className="small-3 columns end">
+          <div className="cafeinfo">
+            <i className="fa fa-apple"></i>
+            <p>Cafe</p>
+            <p>{this.state.cafeDistance}</p>
+            {(this.state.cafeDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
+          </div>
+        </div>
+
       </div>
     )
   }

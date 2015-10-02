@@ -8,17 +8,21 @@ var eventIcons = {
 var TripDashboard = React.createClass({
   render: function(){
     return(
-      <div>
+      <div className="tabs-profile">
         <ul className="tabs" data-tab>
-          <li className="tab-title small-6 active"><a href="#">Itinerary</a></li>
-          <li className="tab-title small-3"><a href="#panel2" id="tab-blog" onClick={this.props.blogs}>Blog</a></li>
-          <li className="tab-title small-3"><a href="#panel3" id="tab-activity" onClick={this.props.activities}>Activities</a></li>
+          <div className="small-5 columns">
+            <li className="tab-title small-12 active"><a href="#">Itinerary</a></li>
+          </div>
+          <div className="small-7 columns">
+            <li className="tab-title small-6"><a href="#panel2" id="tab-blog" onClick={this.props.blogs}>Blog</a></li>
+            <li className="tab-title small-6"><a href="#panel3" id="tab-activity" onClick={this.props.activities}>Activities</a></li>
+          </div>
         </ul>
         <div className="tab-content small-12 columns">
-          <div className="itinerary small-6 columns">
-            <Itinerary finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
+          <div className="itinerary small-5 columns">
+            <Itinerary currentTrip={this.props.currentTrip} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
           </div>
-          <div className="small-6 columns">
+          <div className="trip-options small-7 columns">
             {this.props.status === 3 ? <Activities currentTrip={this.props.currentTrip} lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
               <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
           </div>
@@ -50,7 +54,7 @@ var EditPost = React.createClass({
     var postTitle = $('editTitle').val()
     var postContent = $('editContent').val()
     return(
-    <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts/'+ this.props.id} method='post'>
+    <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+this.props.currentState+'/posts/'+ this.props.id} method='post'>
       <input type="text" id='editTitle'  name='post[title]' placeholder={this.props.title}/>
       <textarea cols="20" id='editContent' name='post[content]' rows="10" placeholder="What did you do today?">{this.props.content}</textarea>
       <input type='submit' value='Update' className='button'/>
@@ -85,7 +89,7 @@ var NewDestinationButton = React.createClass({
     return (
       <span>
         <button className="tiny" onClick={this.onClick} ><span className='fi-pencil'></span> Add a Stop</button>
-      { this.state.showResults ? <NewDestinationForm /> : null }
+      { this.state.showResults ? <NewDestinationForm currentTrip={this.props.currentTrip}/> : null }
       </span>
     );
   }
@@ -94,7 +98,7 @@ var NewDestinationButton = React.createClass({
 var NewDestinationForm = React.createClass({
   render: function () {
     return (
-      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/destinations'} method='post'>
+      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+this.props.currentTrip+'/destinations'} method='post'>
         <input type='hidden' name='_method' value='post'/>
         <input type="text" name='destination[name]' placeholder="City, State"/>
         <input type='submit' value='Add Stop' className='button'/>
@@ -163,7 +167,7 @@ var PostComponent = React.createClass({
 var Itinerary = React.createClass({
   finished: function () {
       this.props.finished ? this.setState({ finished: false }) : this.setState({ finished: true });
-      $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished?dist='+totalDist, function(){
+      $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + this.props.currentTrip + '/finished?dist='+totalDist, function(){
       })
       this.props.updateTrip()
     },
@@ -179,18 +183,95 @@ var Itinerary = React.createClass({
       <div className="itinerary">
         <div className="new-trip">
         <a href={'https://www.google.com/maps/dir' + dest} target='_blank' className='button tiny'>Get Directions</a>
-        {<NewDestinationButton />}
+        {<NewDestinationButton currentTrip={this.props.currentTrip}/>}
         </div>
-        {this.props.destinations.map(function (e) {
-          return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
-        }, this)}
-        <div>
+        <div className="destination-list">
+          <Accordion updateTrip={this.props.updateTrip} destinations={this.props.destinations}/>
+        </div>
+        <div className="itinerary-finished">
           <button className="tiny" onClick={this.finished}> {this.props.finished ? "Trip is Finished!" : "End Trip?"}</button>
         </div>
       </div>
     )
   }
 })
+
+
+var Section = React.createClass({
+  handleClick: function(){
+    if(this.state.open) {
+      this.setState({
+        open: false,
+        class: "section"
+      });
+    }else{
+      this.setState({
+        open: true,
+        class: "section open"
+      });
+    }
+  },
+  getInitialState: function(){
+     return {
+       open: false,
+       class: "section",
+       togglePlacesForm: false,
+       info: ''
+     }
+  },
+  onClick: function() {
+    $('#loclat').html(this.props.lat)
+    $('#loclong').html(this.props.lng)
+    $('#destinationid').html(this.props.destinationid)
+    this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
+  },
+  deleteEvent: function (id) {
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+this.props.destinationid  +"/events/"+id, function(results){
+    });
+    this.props.getTripInfo();
+  },
+  render: function() {
+    var eventList = this.props.events.map(function (e) {
+      return (<div className="eventlisting">
+                <div className="small-7 columns">
+                  <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
+                  {e.name}&nbsp;&nbsp;
+                </div>
+                <div className="small-3 columns">
+                  <MoreInfoModalButton className="inline" placeid={e.place_id}/>
+                </div>
+                <div className="small-2 columns">
+                  <i onClick={this.deleteEvent.bind(this, e.id)} className="fa fa-close right"></i>&nbsp;
+                </div>
+              </div>)
+    }, this)
+    return (
+      <div className={this.state.class}>
+        <button>toggle</button>
+        <div className="sectionhead" onClick={this.handleClick}><i className="fa fa-plus">{' '+this.props.name}</i></div>
+        <div className="articlewrap">
+          <div className="article">
+            {eventList}
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Accordion = React.createClass({
+  render: function() {
+    return (
+      <div className="main">
+         {this.props.destinations.map(function (e) {
+            return (<Section getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          }, this)}
+      </div>
+    );
+  }
+});
+
+
 
 
 var Activities = React.createClass({
@@ -262,50 +343,6 @@ var Destination = React.createClass({
     return (
       <div>
         <h3 className='destination' onClick={this.props.onClick.bind(this, this.props.lat, this.props.lng, this.props.destinationid, this.props.name)}>{this.props.name}</h3>
-      </div>
-    )
-  }
-})
-
-
-var ItineraryListing = React.createClass({
-  getInitialState: function () {
-    return {
-      togglePlacesForm: false,
-      info: ''
-    }
-  },
-  onClick: function() {
-    $('#loclat').html(this.props.lat)
-    $('#loclong').html(this.props.lng)
-    $('#destinationid').html(this.props.destinationid)
-    this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
-  },
-
-  deleteEvent: function (id) {
-    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+this.props.destinationid  +"/events/"+id, function(results){
-    });
-    this.props.getTripInfo();
-  },
-  render: function () {
-    var eventList = this.props.events.map(function (e) {
-      return (<div className="eventlisting">
-                <div className="small-7 columns">
-                  <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
-                  {e.name}&nbsp;&nbsp;
-                </div>
-                <div className="small-3 columns">
-                  <MoreInfoModalButton className="inline" placeid={e.place_id}/>
-                </div>
-                <div className="small-2 columns">
-                  <i onClick={this.deleteEvent.bind(this, e.id)} className="fa fa-close right"></i>&nbsp;
-                </div>
-              </div>)
-    }, this)
-    return (
-      <div className='row clear'>
-        <h3 className='itinerarylisting' onClick={this.onClick}>{this.props.name}</h3>
-        {eventList}
       </div>
     )
   }

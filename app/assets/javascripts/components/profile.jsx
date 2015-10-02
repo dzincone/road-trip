@@ -81,9 +81,15 @@ var SettingsButtons = React.createClass({
   },
   render: function() {
     return (
-      <div className="profile-settings small-12 columns">
+      <div className="small-12 columns">
+        <div className="profile-settings small-6 columns">
           {this.state.showResults ? <ProfileInfo toggle={this.toggleForm} miles={this.state.miles} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
           <EditProfileInfo onClick={this.doStuff} toggle={this.toggleForm} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> }
+        </div>
+        <div className="find-now small-6 columns">
+          <GasInfo />
+        </div>
+
       </div>
     )
   }
@@ -94,23 +100,23 @@ var ProfileInfo = React.createClass({
     console.log(this.props.miles);
     return (
       <div className="profile-info small-12 columns">
-        <div className="profile-pic small-3 columns">
 
-        </div>
-        <div className="small-6 columns">
-          <div className="profile-content small-10 columns">
-            <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
-            <p> Miles Traveled&#58; {this.props.miles} </p>
-            <p> Trips Taken&#58; {this.props.trips} </p>
-            <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
+          <div className="profile-pic small-3 columns">
           </div>
-          <div className="profile-gear small-2 columns">
-            <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
+          <div className="small-6 columns">
+            <div className="profile-content small-10 columns">
+              <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
+              <p> Miles Traveled&#58; {this.props.miles} </p>
+              <p> Trips Taken&#58; {this.props.trips} </p>
+              <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
+            </div>
+            <div className="profile-gear small-2 columns">
+              <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
+            </div>
           </div>
-        </div>
-        <div className="landing-zone small-3 columns">
-          <GasInfo />
-        </div>
+          <div className="small-3 columns end">
+
+          </div>
       </div>
     )
   }
@@ -118,7 +124,7 @@ var ProfileInfo = React.createClass({
 var EditProfileInfo = React.createClass({
   render: function () {
     return (
-      <div className="profile-info small-12 columns">
+      <div className="profile-info small-6 columns">
         <div className="profile-pic-edit small-3 columns">
           <a href="#" className="camera"><i className="fi-camera"></i>
             <p>Upload</p>

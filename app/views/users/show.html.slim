@@ -1,18 +1,19 @@
-/ div.hideMe
-/   div#startLoc= @trip.start_location
-/   div#endLoc= @trip.end_location
-/   div#waypoints= @waypoints
+div.hideMe
+  div#startLoc
+  div#endLoc
+  div#waypoints
 
 script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
 
 .profilePage.small-12.columns
-  .sidebar.small-6.columns
+  .sidebar-profile.small-12.columns
     .profile.small-12.columns
       =react_component('SettingsButtons')
-    .trips-info.small-12.columns
+  .sidebar.small-12.columns
+    .trips-info.small-8.columns
       =react_component('GetTiles')
-  .large-6.columns#map.map  
-    =react_component('SimpleSlider')
+    .large-4.columns#map.map
+
     
 div.hideMe
   div#modal

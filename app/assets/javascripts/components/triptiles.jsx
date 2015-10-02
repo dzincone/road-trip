@@ -50,6 +50,11 @@ var UserComponent = React.createClass({
     this.toggled()
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + id + '.json', function(results){
       console.log("here are the results", results);
+      $('#startLoc').append(results.start_location)
+      $('#endLoc').append(results.end_location)
+      $('#waypoints').append(results.destinations.map(function(e){
+        return e.name + "/"
+      }))
         if(this.isMounted()){
           var events = results.events
           var temp = results.destinations.splice(1, 1)
@@ -69,6 +74,8 @@ var UserComponent = React.createClass({
             destinations: destinations,
             finished: results.finished
           })
+          this.blogs()
+          initMap()
         }
       }.bind(this))
   },
@@ -115,7 +122,6 @@ var UserComponent = React.createClass({
   },
   toggled: function(){
     this.state.toggle === true ? this.setState({ toggle: false }) : this.setState({ toggle: true })
-
   },
   onClick: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
@@ -187,14 +193,14 @@ var GetTiles = React.createClass({
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 3,
-      slidesToScroll: 2,
+      slidesToShow: 2,
+      slidesToScroll: 1,
       initialSlide: 1
     };
     return (
-      <div>
+      <div className="small-12 columns">
         <NewTripButton />
-            <Slider className="trip-tile small-10 columns"{...settings}>
+            <Slider className="trip-tile centered small-centered small-11 columns"{...settings}>
               {allTrips}
             </Slider>
       </div>

@@ -4,6 +4,7 @@
     "browserify": "~> 10.2.4",
     "browserify-incremental": "^3.0.1",
     "react": "^0.13.3",
+    "react-carousel": "^2.0.0",
     "react-slick": "^0.8.0",
     "reactify": "^1.1.1"
   },
