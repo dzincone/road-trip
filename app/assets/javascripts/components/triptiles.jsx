@@ -74,7 +74,7 @@ var UserComponent = React.createClass({
             destinations: destinations,
             finished: results.finished
           })
-          this.blogs()
+          this.activities()
           initMap()
         }
       }.bind(this))
@@ -163,7 +163,7 @@ var UserComponent = React.createClass({
       }
     }.bind(this))
     this.setState({
-      status: 3
+      status: 1
     })
   },
   render: function(){
@@ -171,7 +171,7 @@ var UserComponent = React.createClass({
       <div>
       {this.state.toggle ? <GetTiles oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
       finished={this.state.finished} /> :
-      <TripDashboard currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
+      <TripDashboard toggled={this.toggled} currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
       lat={this.state.lat} long={this.state.long} showResults={this.state.showResults}
       itinerary={this.itinerary} blogs={this.blogs}
       activities={this.activities} trip={this.state.trip} destinations={this.state.destinations}
@@ -193,16 +193,24 @@ var GetTiles = React.createClass({
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 2,
+      slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 1
     };
     return (
       <div className="small-12 columns">
-        <NewTripButton />
-            <Slider className="trip-tile centered small-centered small-11 columns"{...settings}>
-              {allTrips}
-            </Slider>
+        <div className="small-12">
+          <NewTripButton />
+          <div className="create-title">
+          <h1>Choose Your Trip</h1>
+          </div>
+          <Slider className="trip-tile centered small-centered small-8 columns"{...settings}>
+              {allTrips.map(function(trip){
+                console.log(trip, "here it is");
+                return (<div className="small-centered">{trip}</div>)
+              }, this)}
+          </Slider>
+        </div>
       </div>
     );
   }
@@ -210,16 +218,17 @@ var GetTiles = React.createClass({
 
 var TripTile = React.createClass({
   render: function () {
+    console.log(this.props.data, "this is the props");
     // {'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }
     return (
-        <div className="polaroids small-3 columns">
+        <div className="polaroids small-4 small-centered columns" onClick={this.props.oneTrip.bind(null, this.props.data.id)}>
           <input type="hidden" value={this.props.data.id} />
           <div className={this.props.data.finished ? "finished" : undefined}>
-            <a onClick={this.props.oneTrip.bind(null, this.props.data.id)} href="#">
-              <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
               <p className="trip-name">{this.props.data.name}</p>
-            </a>
-              <p className="trip-name">{this.props.data.finished ? "(finished)" : null}</p>
+          </div>
+          <div className="trip-contents">
+            <p>Start Location: {this.props.data.start_location}</p>
+            <p>End Location: {this.props.data.end_location}</p>
           </div>
         </div>
     )

@@ -103,7 +103,7 @@ var ProfileInfo = React.createClass({
 
           <div className="profile-pic small-3 columns">
           </div>
-          <div className="small-6 columns">
+          <div className="small-9 columns">
             <div className="profile-content small-10 columns">
               <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
               <p> Miles Traveled&#58; {this.props.miles} </p>
@@ -113,9 +113,6 @@ var ProfileInfo = React.createClass({
             <div className="profile-gear small-2 columns">
               <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
             </div>
-          </div>
-          <div className="small-3 columns end">
-
           </div>
       </div>
     )

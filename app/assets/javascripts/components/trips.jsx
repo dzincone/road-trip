@@ -8,25 +8,32 @@ var eventIcons = {
 var TripDashboard = React.createClass({
   render: function(){
     return(
-      <div className="tabs-profile">
-        <ul className="tabs" data-tab>
-          <div className="small-5 columns">
-            <li className="tab-title small-12 active"><a href="#">Itinerary</a></li>
+      <div className="tabs-profile small-12 columns">
+
+        <div className="small-8 columns">
+          <ul className="tabs" data-tab>
+            <div className="small-5 columns">
+              <li className="tab-title small-12 active"><a href="#">Itinerary</a></li>
+            </div>
+            <div className="small-7 columns">
+              <li className="tab-title small-6"><a href="#panel2" id="tab-activity" onClick={this.props.activities}>Activities</a></li>
+              <li className="tab-title small-6"><a href="#panel3" id="tab-blog" onClick={this.props.blogs}>Blog</a></li>
+            </div>
+          </ul>
+          <div className="tab-content small-12 columns">
+              <div className="itinerary small-5 columns">
+                <Itinerary toggled={this.props.toggled} currentTrip={this.props.currentTrip} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
+              </div>
+              <div className="trip-options small-7 columns">
+                {this.props.status === 2 ? <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> :
+                 <Activities currentTrip={this.props.currentTrip} lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} />
+                   }
+              </div>
+           </div>
           </div>
-          <div className="small-7 columns">
-            <li className="tab-title small-6"><a href="#panel2" id="tab-blog" onClick={this.props.blogs}>Blog</a></li>
-            <li className="tab-title small-6"><a href="#panel3" id="tab-activity" onClick={this.props.activities}>Activities</a></li>
+          <div id="map" className="map small-4 columns">
+
           </div>
-        </ul>
-        <div className="tab-content small-12 columns">
-          <div className="itinerary small-5 columns">
-            <Itinerary currentTrip={this.props.currentTrip} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
-          </div>
-          <div className="trip-options small-7 columns">
-            {this.props.status === 3 ? <Activities currentTrip={this.props.currentTrip} lat={this.props.lat} long={this.props.long} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations} /> :
-              <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> }
-          </div>
-         </div>
       </div>
     )
   }
@@ -181,6 +188,7 @@ var Itinerary = React.createClass({
       var dest = destinationsPath.replace(/ /g, "+")
     return (
       <div className="itinerary">
+        <button className="back-trip small" onClick={this.props.toggled}>Go Back to Trips</button>
         <div className="new-trip">
         <a href={'https://www.google.com/maps/dir' + dest} target='_blank' className='button tiny'>Get Directions</a>
         {<NewDestinationButton currentTrip={this.props.currentTrip}/>}

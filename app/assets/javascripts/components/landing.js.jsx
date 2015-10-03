@@ -1,15 +1,22 @@
 var CenterBlock = React.createClass({
   getInitialState: function() {
-    return { showResults: true};
+    return { showResults: true,
+             choose: false};
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false}) : this.setState({ showResults: true})
   },
+  choose: function(){
+    this.state.choose === true ? this.setState({ choose: false}) : this.setState({ choose: true})
+    this.toggleForm()
+  },
   render: function () {
     return (
-      <div className="large-8 columns large-centered about-us">
-        <h3>{this.props.message}</h3>
-        { this.state.showResults ? <AboutUs toggle={this.toggleForm} /> : <SignUpForm toggle={this.toggleForm} /> }
+      <div className="landing-title">
+        <h1>Road Trip</h1>
+        <div className="large-8 columns large-centered about-us">
+          { this.state.showResults ? <AboutUs choose={this.choose} toggle={this.toggleForm} /> : this.state.choose ? <LogIn choose={this.choose} /> : <SignUpForm toggle={this.toggleForm} /> }
+        </div>
       </div>
     )
   }
@@ -19,17 +26,70 @@ var AboutUs = React.createClass({
   render: function () {
     return (
       <div>
-        <h1> Welcome to Road Trip</h1>
         <p> Choose your destination, and we will create your trip! We will find you Hotels, Resturaunts, Events, and other
         activities to make your trip the best ever! Create, Plan, and Ride!
         </p>
-        <div className="button-group landing-buttons centered">
-          <button className="small-4" onClick={this.props.toggle}> Sign Up </button>
-          <PreviewButton />
+        <div className="small-12 columns">
+          <div className="button-group landing-buttons centered">
+            <button className="small-4" onClick={this.props.toggle}> Sign Up </button>
+            <button className="small-4" onClick={this.props.choose}> Log In</button>
+          </div>
+          <div className="guest">
+            <form action="/users/sign_in" method='post'>
+                 <input type="hidden" value="guest@email.com" name='user[email]'/>
+                 <input type="hidden" name='user[password]' value="12341234"/>
+                 <input className='button small-6' type='submit' value='Log In as Guest'/>
+           </form>
+          </div>
         </div>
       </div>
     )
   }
+})
+
+var LogIn = React.createClass({
+    render: function () {
+      return (
+        <div className="about-us-login">
+        <form action="/users/sign_in" method="post">
+          <div className="row">
+            <div className="large-10 small-centered columns">
+              <div className="row collapse">
+                <div className="small-2 columns">
+                    <span href="#" className="prefix fi-torso"></span>
+                </div>
+                <div className="small-10 columns">
+                  <input  id='email' type="email" placeholder="email" name="user[email]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="large-10 small-centered columns">
+              <div className="row collapse">
+                <div className="small-2 columns">
+                    <span href="#" className="prefix fi-lock"></span>
+                </div>
+                <div className="small-10 columns">
+                <input id='password' type="password" placeholder="password" name="user[password]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="reverse">
+              <a href="#" onClick={this.props.choose} className="back-arrow"><i className="fi-arrow-left"></i></a>
+            </div>
+            <div className="small-12 columns small-centered">
+              <div className="small-5 small-centered columns">
+                <input type="submit" className='button small-12' name="name" value="Log In"/>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+      )
+    }
 })
 
 
@@ -141,9 +201,7 @@ var PreviewButton = React.createClass({
 	},
 	render: function(){
 		return (
-			<div>
       <button className="small-4" onClick={this.handleClick}> Preview </button>
-			</div>
 		);
 	}
 });
