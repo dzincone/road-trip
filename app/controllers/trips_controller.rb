@@ -164,8 +164,6 @@ class TripsController < ApplicationController
 
     end_location_city = params[:trip][:end_location_city]
     end_location_state = params[:trip][:end_location_state]
-
-
     url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address='+start_location_city+',+'+start_location_state+'&key='+ENV['GOOGLEAPI'])
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
@@ -211,7 +209,7 @@ class TripsController < ApplicationController
       @destination_here.save
       @destination_start.save
       @destination_end.save
-      redirect_to user_trip_path(current_user.id, @trip.id)
+      redirect_to user_path(current_user.id)
     else
       redirect_to root_path
     end

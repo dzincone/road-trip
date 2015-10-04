@@ -53,16 +53,18 @@ function initMap() {
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   var waypts = [];
-    console.log(waypointsArr, "what what what??");
+  var waypointsArr = ($('#waypoints').html().split("/"));
+      console.log(waypointsArr, "what what what??");
 
-  var waypointsArr = ($('#waypoints').html().split("/").pop());
   for (var i = 3; i < waypointsArr.length; i++) {
     waypts.push({
       location: waypointsArr[i],
       stopover: true
     });
-    console.log(waypts, "lkajsdflkjasdfjl a djsflk ajdslkf j");
   }
+    waypts.splice(waypts.length - 1, 1)
+  console.log(waypts, " just got popped lkajsdflkjasdfjl a djsflk ajdslkf j");
+
 
   directionsService.route({
     origin: $('#startLoc').html(),
@@ -71,6 +73,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING
   }, function(response, status) {
+    console.log(response, "this is the response");
     totalDist = response.routes[0].legs.reduce(function (prev, curr) {
       return prev + curr.distance.value
     }, 0)

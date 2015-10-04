@@ -1,8 +1,19 @@
 var React = require('react');
+var Modal = require('react-modal');
 var NewTripButton = require('./newtripbutton.jsx')
 var Slider = require('react-slick');
 var TripDashboard = require('./trips.jsx')
 
+var customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 var eventIcons = {
   'restaurant': 'fa fa-cutlery',
@@ -25,7 +36,8 @@ var UserComponent = React.createClass({
       posts: "",
       showResults: false,
       toggle: true,
-      currentTrip: ""}
+      currentTrip: "",
+      }
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -102,6 +114,19 @@ var UserComponent = React.createClass({
       }
     }.bind(this))
   },
+  makeNewTrip: function(){
+    var name = $('#createname').val()
+    var start_location_city = $('#createstartcity').val()
+    var start_location_state = $('#createstartstate').val()
+    var end_location_city = $('#createendcity').val()
+    var end_location_state = $('#createendstate').val()
+    $.post('/users/'+ window.location.pathname.split('/')[2]+'/trips',
+    {async: false, 'trip[name]': name, 'trip[start_location_city]': start_location_city, 'trip[start_location_state]': start_location_state, 'trip[end_location_city]': end_location_city, 'trip[end_location_state]': end_location_state, "_method": "post"})
+    .done(function(data){
+      console.log(data);
+    })
+
+  },
   newBlogPost: function(){
     this.onClick()
     var latitude = $("#bloglatitude").val()
@@ -110,7 +135,7 @@ var UserComponent = React.createClass({
     var content = $('#blogcontent').val()
     $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+ this.state.currentTrip +'/posts',
       {'post[latitude]': latitude, 'post[longitude]': longitude, 'post[title]': title, 'post[content]': content, "_method": "post"})
-      .done(function(data){
+      .success(function(data){
       })
       this.blogs()
       this.getTripInfo()
@@ -169,7 +194,7 @@ var UserComponent = React.createClass({
   render: function(){
     return (
       <div>
-      {this.state.toggle ? <GetTiles oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
+      {this.state.toggle ? <GetTiles makeNewTrip={this.makeNewTrip} oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
       finished={this.state.finished} /> :
       <TripDashboard toggled={this.toggled} currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
       lat={this.state.lat} long={this.state.long} showResults={this.state.showResults}
@@ -192,7 +217,7 @@ var GetTiles = React.createClass({
     var settings = {
       dots: true,
       infinite: true,
-      speed: 500,
+      speed: 700,
       slidesToShow: 1,
       slidesToScroll: 1,
       initialSlide: 1
@@ -200,7 +225,7 @@ var GetTiles = React.createClass({
     return (
       <div className="small-12 columns">
         <div className="small-12">
-          <NewTripButton />
+          <NewTripButton makeNewTrip={this.props.makeNewTrip}/>
           <div className="create-title">
           <h1>Choose Your Trip</h1>
           </div>

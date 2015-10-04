@@ -1,3 +1,17 @@
+var Modal = require('react-modal');
+
+var customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
+
 var eventIcons = {
   'restaurant': 'fa fa-cutlery',
   'lodging': 'fa fa-bed',
@@ -12,7 +26,7 @@ var TripDashboard = React.createClass({
 
         <div className="small-8 columns">
           <ul className="tabs" data-tab>
-            <div className="small-5 columns">
+            <div className="small-5 itin columns">
               <li className="tab-title small-12 active"><a href="#">Itinerary</a></li>
             </div>
             <div className="small-7 columns">
@@ -119,7 +133,7 @@ var DisplayPosts = React.createClass({
     var allPosts = this.props.posts
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
-      displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
+      displayPosts.push(< PostComponent currentTrip={this.props.currentTrip} key={allPosts[i].id} data={allPosts[i]} />)
     }
   return (
         <div className="display-posts">
@@ -135,7 +149,7 @@ var BlogCarousel = React.createClass({
     return (
       <div className="new-trip">
       <button className="small" onClick={this.props.onClick} ><span className='fi-pencil'></span> {this.props.showResults ? "Show my blogs" : "Add new blog post"}</button>
-      { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : <DisplayPosts posts={this.props.posts} />}
+      { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : <DisplayPosts currentTrip={this.props.currentTrip} posts={this.props.posts} />}
       </div>
     )
   }
@@ -158,7 +172,7 @@ var PostComponent = React.createClass({
         <div>
             <button className='button tiny' onClick={this.toggleForm}>EDIT</button>
           {
-            this.state.editForm ? <EditPost className='editPost' key={data.id} id={data.id} title={data.title} content={data.content}/>:
+            this.state.editForm ? <EditPost currentTrip={this.props.currentTrip} className='editPost' key={data.id} id={data.id} title={data.title} content={data.content}/>:
             <div>
             <h1>{data.title}</h1>
             <p>{data.content}</p>
@@ -194,6 +208,7 @@ var Itinerary = React.createClass({
         {<NewDestinationButton currentTrip={this.props.currentTrip}/>}
         </div>
         <div className="destination-list">
+          <h3>Select City</h3>
           <Accordion updateTrip={this.props.updateTrip} destinations={this.props.destinations}/>
         </div>
         <div className="itinerary-finished">
@@ -428,7 +443,7 @@ var PlacesResults = React.createClass({
         return (<div className="placesresult clear">
                   <div className="small-7 columns">
                     <button type='submit' onClick={this.saveEvent.bind(this, result.place_id, result.name)} className="button tiny success">Save</button>
-                    <MoreInfoModalButton className="inline" placeid={result.place_id}/>
+                    <MoreInfoModalButton saveEvent={this.saveEvent.bind(this, result.place_id, result.name)} placeid={result.place_id}/>
                   </div>
                   <div className="small-5 columns">
                     <h5 className="inline">{result.name}</h5>
@@ -444,54 +459,62 @@ var PlacesResults = React.createClass({
   }
 })
 
+
 var MoreInfoModalButton = React.createClass({
-  getInitialState: function () {
-    return ({
-      info: ''
-    })
-  },
-  getInfo: function (placeId) {
-    $.get("/show_info?place_id="+placeId, function(results){
-      if(this.isMounted()){
-        console.log(results);
-        this.setState({
-          info: results
-        })
-      }
-    }.bind(this))
+  getInitialState: function() {
+    return { modalIsOpen: false,
+              info: ''
+                          };
   },
 	handleClick: function(){
     $.get("/show_info?place_id="+this.props.placeid, function(results){
-      if(this.isMounted()){
         console.log(results);
         this.setState({
           info: results
         })
-    		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-        var eventInfo = $("<div><h2>Name:</h2><p>"+results.data.result.name+"</p><h3>Address:</h3><p>"+results.data.result.formatted_address+"</p><h3>Phone:</h3><p>"+results.data.result.formatted_phone_number+"</p><h3>Website:</h3><p><a href='"+results.data.result.website+"' target='_blank'>Click Here</a></p></div>");
-        $('#infocontent').html(null);
-        $('#infocontent').append(eventInfo);
-    		var reveal = $('<div class="reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
-    		$(reveal).foundation().foundation('reveal', 'open');
-    		$(reveal).bind('closed.fndtn.reveal', function(e){
-          React.unmountComponentAtNode(this);
-        });
-    		if(React.isValidElement(this.props.revealContent)) {
-    			React.render(this.props.revealContent, $('#modal')[0]);
-    		}
-    		else {
-    			$('#infocontent').append(this.props.revealContent);
-    		}
-      }
     }.bind(this))
+    this.openModal()
 	},
-	render: function(){
-		return (
-			<div className="inline">
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+    console.log(this.state.info);
+  },
+
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+  saveAndClose: function(){
+    this.props.saveEvent()
+    this.closeModal()
+  },
+  render: function() {
+    return (
+      <div className="inline">
         <button onClick={this.handleClick} className="button tiny info">More Info</button>
-			</div>
-		);
-	}
-});
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+              <div className="modal-info">
+                  <div className="info-open">
+                    <button type='submit' onClick={this.saveAndClose} className="button tiny success">Save</button>
+                  </div>
+                  <h2>Name:</h2>
+                  <p>{this.state.info.data ? this.state.info.data.result.name : undefined}</p>
+                  <h3>Address:</h3>
+                  <p>{this.state.info.data ? this.state.info.data.result.formatted_address : undefined}</p>
+                  <h3>Phone:</h3>
+                  <p>{this.state.info.data ? this.state.info.data.result.formatted_phone_number : undefined}</p>
+                  <h3>Website: <a href={this.state.info.data ? this.state.info.data.result.website : undefined} target='_blank'>Go To Website</a></h3>
+                  <div className="info-open">
+
+                  </div>
+                </div>
+        </Modal>
+      </div>
+    );
+  }
+})
+
 
 module.exports = TripDashboard

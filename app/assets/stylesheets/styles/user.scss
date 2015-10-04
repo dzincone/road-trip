@@ -14,13 +14,39 @@ button {
 // *********************
 
 #tab-activity.active {
-  background-color: $secondary-color;
+  background-color: #FF0013;
   color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
 }
 
 #tab-blog.active {
-  background-color: $secondary-color;
+  background-color: #00D22D;
   color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+
+#tab-activity {
+  background-color: #FF0013;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+
+#tab-blog {
+  background-color: #00D22D;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
 }
 .tab-title .itinerary {
     padding-top: 2px;
@@ -62,6 +88,10 @@ button {
   margin: 0;
   border-right: 1px solid $secondary-color;
   height: 100%;
+  text-align:center;
+  .back-trip {
+    margin-bottom: 5px;
+  }
   h3 {
     font-size: 1.2em;
     padding-left: 20px;
@@ -90,18 +120,18 @@ button {
   height: 100vh;
   ul.tabs {
     text-align: center;
-    background-color: white;
+    background-color: #00C8DC;
     color: black;
+    .itin li a {
+      background-color: #00C8DC;
+      color: white;
+      cursor: default;
+    }
   }
   li.tab-title a {
-    background-color: #E1E1E1;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    color: #333333;
-    &:hover {
-      background-color: $secondary-color;
-    }
   }
 }
 
@@ -117,11 +147,20 @@ button {
 }
 
 .destination-list {
+  h3 {
+    color: #333333;
+  }
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 10px;
 }
 
+.new-trip-modal {
+  text-align: center;
+  h1 {
+    color: #00C8DC;
+  }
+}
 i.fi-widget{
   color: #73A0A9;
 }
@@ -287,7 +326,7 @@ i.fi-camera {
   -webkit-transition: -webkit-transform .15s linear;
   display: inline-block;
   margin: 1%;
-  width: 80%;
+  width: 60%;
   min-height: 200px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
   p.trip-name {
@@ -314,6 +353,11 @@ i.fi-camera {
 
 .create-title {
   text-align: center;
+  h1 {
+    font-size: 4em;
+    color: #EDF400;
+    font-weight: 800;
+  }
 }
 
 .slick-prev:before, .slick-next:before {

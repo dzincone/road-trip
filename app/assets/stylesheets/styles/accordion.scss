@@ -78,6 +78,12 @@ $darkgrey: #73A0C6;
     font-weight: 800;
     padding: 10px;
   }
+  &:hover {
+    background-color: #437085;
+    i {
+      color: white;
+    }
+  }
 }
 
 .article {

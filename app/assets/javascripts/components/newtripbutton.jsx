@@ -1,31 +1,65 @@
+var Modal = require('react-modal');
 
+var customStyles = {
+  content : {
+    width: '50%',
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 var NewTripButton = React.createClass({
-	handleClick: function(e){
-		if(e && typeof e.preventDefault == 'function') {
-			e.preventDefault();
-		}
-		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-		var reveal = $('<div class="newTrip reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
-		$(reveal).foundation().foundation('reveal', 'open');
-		$(reveal).bind('closed.fndtn.reveal', function(e){
-      React.unmountComponentAtNode(this);
-    });
+	getInitialState: function() {
+    return { modalIsOpen: false };
+  },
 
-		if(React.isValidElement(this.props.revealContent)) {
-			React.render(this.props.revealContent, $('#modal')[0]);
-		}
-		else {
-			$('#modal').append(this.props.revealContent);
-		}
-	},
-	render: function(){
-		return (
-			<div className="new-trip">
-        <button class='new-trip button tiny' onClick={this.handleClick}><span className='fi-plus'></span> Create New Trip</button>
-			</div>
-		);
-	}
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+  },
+
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+
+  render: function() {
+    return (
+      <div className="new-trip">
+        <button onClick={this.openModal}><i className="fa fa-plus"></i> Create New Trip!</button>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+            <div className="new-trip-modal">
+            <h1>New Trip</h1>
+            </div>
+            <div className="row">
+              <div className="small-12 columns">
+                <input id="createname" type="text" name="trip[name]" placeholder="Trip Name" />
+              </div>
+              <div className="small-8 columns">
+                <input id="createstartcity" type="text" name="trip[start_location_city]" placeholder="Starting City" />
+              </div>
+              <div className="small-4 columns">
+                <input id="createstartstate" type="text" name="trip[start_location_state]" placeholder="Starting State" />
+              </div>
+              <div className="small-8 columns">
+                <input id="createendcity" type="text" name="trip[end_location_city]" placeholder="Ending City" />
+              </div>
+              <div className="small-4 columns">
+                <input id="createendstate" type="text" name="trip[end_location_state]" placeholder="Ending City" />
+              </div>
+              <div className="small-12 columns">
+                <button className="tiny" onClick={this.props.makeNewTrip} type="button">Create Trip</button>
+              </div>
+            </div>
+        </Modal>
+      </div>
+    );
+  }
 });
 
 module.exports = NewTripButton

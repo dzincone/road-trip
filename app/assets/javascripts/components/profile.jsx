@@ -104,13 +104,13 @@ var ProfileInfo = React.createClass({
           <div className="profile-pic small-3 columns">
           </div>
           <div className="small-9 columns">
-            <div className="profile-content small-10 columns">
+            <div className="profile-content small-8 columns">
               <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
               <p> Miles Traveled&#58; {this.props.miles} </p>
               <p> Trips Taken&#58; {this.props.trips} </p>
               <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
             </div>
-            <div className="profile-gear small-2 columns">
+            <div className="profile-gear small-2 columns end">
               <a href="#"><i fid="edit-intro" className='fi-widget edit-profile' onClick={this.props.toggle}></i></a>
             </div>
           </div>
