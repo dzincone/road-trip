@@ -82,6 +82,11 @@ button {
     font-size: 1.2em;
   }
 }
+
+.destination {
+  color: #4C7C9B;
+}
+
 .itinerary {
   background-color: #F3F1EE;
   padding: 0;
@@ -351,8 +356,23 @@ i.fi-camera {
   }
 }
 
+.modal-infoitinerary {
+  background-color: #73A0A9;
+  border-color: #73A0A9;
+  a {
+    font-size: 1.2em;
+    color: #EDF400;
+    &:hover {
+      color: #BBC100;
+    }
+  }
+  .info-center {
+    margin-top: 10px;
+  }
+}
+
 .create-title {
-  text-align: center;
+    text-align: center;
   h1 {
     font-size: 4em;
     color: #EDF400;
@@ -379,7 +399,7 @@ li {
 }
 
 .gasinfo{
-  text-align: center;
+    text-align: center;
   border: solid #00C3D9 3px;
   border-radius: 3px;
   color: $white;

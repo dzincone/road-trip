@@ -74,7 +74,6 @@ var GasInfo = React.createClass({
             <i className="fa fa-car"></i>
             <p>Gas</p>
             <p>{this.state.gasDistance}</p>
-            {(this.state.gasDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
           </div>
         </div>
 
@@ -83,7 +82,6 @@ var GasInfo = React.createClass({
             <i className="fa fa-beer"></i>
             <p>Spirits</p>
             <p>{this.state.liquorDistance}</p>
-            {(this.state.liquorDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
           </div>
         </div>
 
@@ -92,7 +90,6 @@ var GasInfo = React.createClass({
             <i className="fa fa-fire"></i>
             <p>Campground</p>
             <p>{this.state.campDistance}</p>
-            {(this.state.campDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
           </div>
         </div>
 
@@ -101,7 +98,6 @@ var GasInfo = React.createClass({
             <i className="fa fa-apple"></i>
             <p>Cafe</p>
             <p>{this.state.cafeDistance}</p>
-            {(this.state.cafeDistance === "") ? null : <button className='new-trip button tiny'>Find Directions</button>}
           </div>
         </div>
 

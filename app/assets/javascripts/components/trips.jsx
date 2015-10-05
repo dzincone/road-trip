@@ -2,6 +2,7 @@ var Modal = require('react-modal');
 
 var customStyles = {
   content : {
+    'background-color': '#73A0A9',
     top                   : '50%',
     left                  : '50%',
     right                 : 'auto',
@@ -116,17 +117,6 @@ var NewDestinationButton = React.createClass({
   }
 });
 
-var NewDestinationForm = React.createClass({
-  render: function () {
-    return (
-      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+this.props.currentTrip+'/destinations'} method='post'>
-        <input type='hidden' name='_method' value='post'/>
-        <input type="text" name='destination[name]' placeholder="City, State"/>
-        <input type='submit' value='Add Stop' className='button'/>
-      </form>
-    )
-  }
-})
 
 var DisplayPosts = React.createClass({
   render: function() {
@@ -204,8 +194,7 @@ var Itinerary = React.createClass({
       <div className="itinerary">
         <button className="back-trip small" onClick={this.props.toggled}>Go Back to Trips</button>
         <div className="new-trip">
-        <a href={'https://www.google.com/maps/dir' + dest} target='_blank' className='button tiny'>Get Directions</a>
-        {<NewDestinationButton currentTrip={this.props.currentTrip}/>}
+        {<NewTripModal getTripInfo={this.props.updateTrip} currentTrip={this.props.currentTrip}/>}
         </div>
         <div className="destination-list">
           <h3>Select City</h3>
@@ -261,7 +250,7 @@ var Section = React.createClass({
                   {e.name}&nbsp;&nbsp;
                 </div>
                 <div className="small-3 columns">
-                  <MoreInfoModalButton className="inline" placeid={e.place_id}/>
+                  <MoreInfoModalButtonItinerary placeid={e.place_id}/>
                 </div>
                 <div className="small-2 columns">
                   <i onClick={this.deleteEvent.bind(this, e.id)} className="fa fa-close right"></i>&nbsp;
@@ -508,6 +497,108 @@ var MoreInfoModalButton = React.createClass({
                   <h3>Website: <a href={this.state.info.data ? this.state.info.data.result.website : undefined} target='_blank'>Go To Website</a></h3>
                   <div className="info-open">
 
+                  </div>
+                </div>
+        </Modal>
+      </div>
+    );
+  }
+})
+
+
+var NewTripModal = React.createClass({
+  getInitialState: function() {
+    return { modalIsOpen: false,
+              info: ''
+                          };
+  },
+	handleClick: function(){
+    $.get("/show_info?place_id="+this.props.placeid, function(results){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+    }.bind(this))
+    this.openModal()
+	},
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+    console.log(this.state.info);
+  },
+
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+  makeNewStop: function(){
+    var name = $('#newstopcitystate').val()
+    $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+this.props.currentTrip+'/destinations',
+      {'destination[name]': name, '_method': 'post'})
+    this.props.getTripInfo()
+    this.closeModal()
+    initmap()
+  },
+  render: function() {
+    return (
+        <div>
+          <input onClick={this.openModal} className="button tiny info"  value="Add a Stop"/>
+        <Modal className="modalitinerary"
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+              <div className="modal-infoitinerary">
+              <input type='hidden' name='_method' value='post'/>
+              <input id='newstopcitystate' type="text" name='destination[name]' placeholder="City, State"/>
+                  <div className="info-center">
+                    <button type='submit' onClick={this.makeNewStop} className="button tiny success">Add Destination</button>
+                  </div>
+                </div>
+        </Modal>
+      </div>
+    );
+  }
+})
+
+var MoreInfoModalButtonItinerary = React.createClass({
+  getInitialState: function() {
+    return { modalIsOpen: false,
+              info: ''
+                          };
+  },
+	handleClick: function(){
+    $.get("/show_info?place_id="+this.props.placeid, function(results){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+    }.bind(this))
+    this.openModal()
+	},
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+    console.log(this.state.info);
+  },
+
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+  render: function() {
+    return (
+        <div>
+          <input onClick={this.handleClick} className="trip-modal button info"  value="More Info"/>
+        <Modal className="modalitinerary"
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+              <div className="modal-infoitinerary">
+                  <h3>Name:</h3>
+                  <p>{this.state.info.data ? this.state.info.data.result.name : undefined}</p>
+                  <h3>Address:</h3>
+                  <p>{this.state.info.data ? this.state.info.data.result.formatted_address : undefined}</p>
+                  <h3>Phone:</h3>
+                  <p>{this.state.info.data ? this.state.info.data.result.formatted_phone_number : undefined}</p>
+                  <a href={this.state.info.data ? this.state.info.data.result.website : undefined} className="website" target='_blank'>Go To Website</a>
+                  <div className="info-center">
+                    <button type='submit' onClick={this.closeModal} className="button tiny success">Close</button>
                   </div>
                 </div>
         </Modal>

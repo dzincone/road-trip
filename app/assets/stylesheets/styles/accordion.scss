@@ -60,6 +60,13 @@ $darkgrey: #73A0C6;
   height: 0;
   overflow: hidden;
   transition: all .2s ease-in;
+  .trip-modal {
+      padding: 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: 0;
+      width: 100%;
+  }
 }
 
 .sectionhead {

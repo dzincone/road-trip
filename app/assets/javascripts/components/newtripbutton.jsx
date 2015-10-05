@@ -24,7 +24,10 @@ var NewTripButton = React.createClass({
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
-
+  makeNewAndClose: function(){
+    this.props.makeNewTrip()
+    this.closeModal()
+  },
   render: function() {
     return (
       <div className="new-trip">
@@ -53,7 +56,7 @@ var NewTripButton = React.createClass({
                 <input id="createendstate" type="text" name="trip[end_location_state]" placeholder="Ending City" />
               </div>
               <div className="small-12 columns">
-                <button className="tiny" onClick={this.props.makeNewTrip} type="button">Create Trip</button>
+                <button className="tiny" onClick={this.makeNewAndClose} type="button">Create Trip</button>
               </div>
             </div>
         </Modal>

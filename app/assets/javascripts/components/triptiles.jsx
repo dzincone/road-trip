@@ -127,6 +127,9 @@ var UserComponent = React.createClass({
     })
 
   },
+  addAStop: function(){
+    $.post('/users')
+  },
   newBlogPost: function(){
     this.onClick()
     var latitude = $("#bloglatitude").val()
@@ -147,6 +150,10 @@ var UserComponent = React.createClass({
   },
   toggled: function(){
     this.state.toggle === true ? this.setState({ toggle: false }) : this.setState({ toggle: true })
+    $('#startLoc').empty()
+    $('#endLoc').empty()
+    $('#waypoints').empty()
+
   },
   onClick: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
