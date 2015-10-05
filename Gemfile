@@ -19,7 +19,7 @@ gem 'foundation-rails'
 
 gem 'slick_rails'
 
-gem "browserify-rails"
+gem "browserify-rails", :groups => [:development, :production]
 
 gem 'certified'
 
