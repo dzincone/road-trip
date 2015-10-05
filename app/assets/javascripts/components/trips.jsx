@@ -484,21 +484,18 @@ var MoreInfoModalButton = React.createClass({
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
-              <div className="modal-info">
-                  <div className="info-open">
+            <div className="modal-infoitinerary">
+                <h3>Name:</h3>
+                <p>{this.state.info.data ? this.state.info.data.result.name : undefined}</p>
+                <h3>Address:</h3>
+                <p>{this.state.info.data ? this.state.info.data.result.formatted_address : undefined}</p>
+                <h3>Phone:</h3>
+                <p>{this.state.info.data ? this.state.info.data.result.formatted_phone_number : undefined}</p>
+                <a href={this.state.info.data ? this.state.info.data.result.website : undefined} className="website" target='_blank'>Go To Website</a>
+                <div className="info-center">
                     <button type='submit' onClick={this.saveAndClose} className="button tiny success">Save</button>
-                  </div>
-                  <h2>Name:</h2>
-                  <p>{this.state.info.data ? this.state.info.data.result.name : undefined}</p>
-                  <h3>Address:</h3>
-                  <p>{this.state.info.data ? this.state.info.data.result.formatted_address : undefined}</p>
-                  <h3>Phone:</h3>
-                  <p>{this.state.info.data ? this.state.info.data.result.formatted_phone_number : undefined}</p>
-                  <h3>Website: <a href={this.state.info.data ? this.state.info.data.result.website : undefined} target='_blank'>Go To Website</a></h3>
-                  <div className="info-open">
-
-                  </div>
                 </div>
+              </div>
         </Modal>
       </div>
     );
