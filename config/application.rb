@@ -15,6 +15,7 @@ module RoadTripBackEnd
   class Application < Rails::Application
 
     config.autoload_paths += %W(#{config.root}/lib)
+    config.browserify_rails.commandline_options = "--transform reactify --extension=\".jsx\""
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

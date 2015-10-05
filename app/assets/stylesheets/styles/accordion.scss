@@ -1,0 +1,100 @@
+$grey: #73A0A9;
+$red: #ee0c4b;
+$darkgrey: #73A0C6;
+
+
+
+.main {
+  background: $grey;
+  width: 100%;
+  overflow: hidden;
+  .title {
+    color: #fff;
+    background: $darkgrey;
+    text-align: center;
+    font-weight: 800;
+    line-height: 1.2em;
+    padding: 1em;
+  }
+}
+
+.section {
+  width: 100%;
+  border-bottom: 5px solid $darkgrey;
+  border-left: 2px solid $darkgrey;
+  border-right: 2px solid $darkgrey;
+  border-radius: 2px;
+  button {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    height: 3em;
+    width: 3em;
+    outline: 0;
+    border: 0;
+    background: none;
+    text-indent: -9999%;
+    pointer-events: none;
+  }
+}
+
+.section.open {
+  button {
+    &:before, &:after {
+      height: 14px;
+    }
+    &:before {
+      transform: translate(0%, -50%) rotate(-45deg);
+    }
+    &:after {
+      transform: translate(0%, -50%) rotate(45deg);
+    }
+  }
+  .articlewrap {
+    height: auto;
+  }
+}
+
+.articlewrap {
+  height: 0;
+  overflow: hidden;
+  transition: all .2s ease-in;
+  .trip-modal {
+      padding: 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: 0;
+      width: 100%;
+  }
+}
+
+.sectionhead {
+  width: 100%;
+  overflow: hidden;
+  background: white;
+  cursor: pointer;
+  font-weight: 700;
+  color: #888;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: .5em;
+  padding-right: 2.1em;
+  i {
+    color: #00B56B;
+    font-weight: 800;
+    padding: 10px;
+  }
+  &:hover {
+    background-color: #437085;
+    i {
+      color: white;
+    }
+  }
+}
+
+.article {
+  padding: 1em;
+  color: #333;
+  line-height: 1.3;
+}

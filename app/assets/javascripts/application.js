@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
-//= require react
-//= require react_ujs
 //= require components
 //= require_tree .
 //= require foundation
@@ -36,6 +34,7 @@ $(function(){ $(document).foundation(); });
 var totalDist;
 var map;
 function initMap() {
+  console.log("Here is the mpa please work!");
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -52,14 +51,19 @@ function initMap() {
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   var waypts = [];
-  var waypointsArr = JSON.parse($('#waypoints').html());
-  console.log(waypointsArr);
-  for (var i = 2; i < waypointsArr.length; i++) {
+  var waypointsArr = ($('#waypoints').html().split("/"));
+      console.log(waypointsArr, "what what what??");
+
+  for (var i = 3; i < waypointsArr.length; i++) {
     waypts.push({
       location: waypointsArr[i],
       stopover: true
     });
   }
+
+    waypts.splice(waypts.length - 1, 1)
+  console.log(waypts, " just got popped lkajsdflkjasdfjl a djsflk ajdslkf j");
+
 
   directionsService.route({
     origin: $('#startLoc').html(),
@@ -68,6 +72,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING
   }, function(response, status) {
+
     totalDist = response.routes[0].legs.reduce(function (prev, curr) {
       return prev + curr.distance.value
     }, 0)

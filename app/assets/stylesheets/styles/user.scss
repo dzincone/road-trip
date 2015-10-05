@@ -5,21 +5,145 @@ $secondary-color: #7B9EA8;
 $black: #666;
 $third: #BCEBCB;
 
+
+button {
+  border-radius: 2px;
+}
+
 // *********************
 // ******User***********
 // *********************
 
+#tab-activity.active {
+  background-color: #FF0013;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+
+#tab-blog.active {
+  background-color: #00D22D;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+
+#tab-activity {
+  background-color: #FF0013;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+
+#tab-blog {
+  background-color: #00D22D;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #437085;
+  }
+}
+.tab-title .itinerary {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#map {
+  height: 100vh;
+}
+
+.map {
+  height: 400px;
+}
+
+.find-now {
+  margin-top: 10px;
+}
+
+.tabs-profile {
+  padding: 0;
+  .small-5, .small-6, .small-7 {
+    padding: 0;
+  }
+  div {
+    padding: 0;
+  }
+}
+
+.trip-options {
+  background-color: #F3F1EE;
+  height: 100vh;
+  h3 {
+    font-size: 1.2em;
+  }
+}
+
+.destination {
+  color: #4C7C9B;
+}
+
+.itinerary {
+  background-color: #F3F1EE;
+  padding: 0;
+  margin: 0;
+  border-right: 1px solid $secondary-color;
+  height: 100%;
+  text-align:center;
+  .back-trip {
+    margin-bottom: 5px;
+  }
+  h3 {
+    font-size: 1.2em;
+    padding-left: 20px;
+  }
+  .itinerary-finished{
+    padding-left: 20px;
+  }
+}
+
+.tab-content {
+  height: 100vh;
+  padding: 0;
+  .small-6 {
+    padding: 0;
+    .small-8 {
+      padding: 0;
+    }
+  }
+}
+.sidebar-profile {
+  padding: 0;
+}
 
 .sidebar {
-  text-align: center;
-  background-color: transparentize($primary, 0.3);
+  padding: 0;
   height: 100vh;
-  ul.tabs li.tab-title a {
-    color: $black;
+  ul.tabs {
+    text-align: center;
+    background-color: #00C8DC;
+    color: black;
+    .itin li a {
+      background-color: #00C8DC;
+      color: white;
+      cursor: default;
+    }
+  }
+  li.tab-title a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
   }
 }
 
 .profilePage {
+  margin: 0;
+  padding: 0;
   background-color: rgb(220, 238, 8);
   background-image: url('https://images.unsplash.com/photo-1424746219973-8fe3bd07d8e3?q=80&fm=jpg&s=69c2c4804c5892bd8f882afa7ee4e003');
   background-repeat: no-repeat;
@@ -28,47 +152,130 @@ $third: #BCEBCB;
   z-index: 0;
 }
 
-.profile-pic {
-  border-radius: 50%;
-  width: 60%;
+.destination-list {
+  h3 {
+    color: #333333;
+  }
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-.profile-settings {
-  margin: 0;
+.new-trip-modal {
+  text-align: center;
+  h1 {
+    color: #00C8DC;
+  }
+}
+i.fi-widget{
+  color: #73A0A9;
+}
+
+i.fi-widget:hover {
+  color: white;
+}
+
+i.fi-camera {
+  font-size: 3.2em;
+  color: #73A0A9;
+}
+
+.profile-back {
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: 8px;
+  margin-top: 10px;
+  a {
+  color: white;
+  }
+  a:hover {
+    color: #73A0A9;
+  }
+
+}
+
+.profile-pic {
+  vertical-align: top;
+  width: 125px;
+  height: 125px;
+  display: inline-block;
+  background-image: url("http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 8px rgba(115, 160, 169, 0.8);
+  border-radius: 75%;
+}
+
+.profile-pic-edit {
+  vertical-align: top;
+  width: 125px;
+  height: 125px;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(#73A0A9, .8);
+  border-radius: 75%;
+  text-align: center;
+  p {
+    color: #73A0A9;
+  }
+}
+
+.profile-content {
   padding: 0;
-  margin-top: 5%;
-  & h2 {
-    color: $primary;
-  }
-  .edit-pencil{
-    z-index: 20;
-    & a{
-      float: left;
-    }
-  }
-  .edit-profile {
-    position: absolute;
-  }
-  .small-12.columns {
+  text-align: center;
+  display: inline-block;
+  p {
     margin: 0;
   }
 }
 
-.edit-gear {
+.profile-gear {
+  padding: 0;
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+
+.profile-options {
+  padding-left: 25px;
+  display: inline-block;
+  vertical-align: top;
   text-align: center;
-  font-size: 1.4em;
-  a span {
-    color: $primary;
-    padding-left: 5px;
-    padding-right:5px;
+}
+
+.profile-info {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: inline-block;
+  .row {
+    margin-top: 10px;
   }
-  a span:hover {
-    color: $secondary-color;
+  input {
+    margin-bottom: 0;
   }
-  & span:hover {
-    color: blue;
+  button {
+    margin-bottom: 0;
   }
 }
+
+.profile {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: rgba(#000, 0.7);
+}
+
+
+.profile-settings {
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 
 .trip-name {
   margin-bottom: 5px;
@@ -79,59 +286,188 @@ $third: #BCEBCB;
   margin-top: 5%;
 }
 
+
+.trips-info {
+  padding: 0;
+}
+
 .hideMe {
   display: none;
 }
 
-ul.polaroids {
-  clear: both;
+
+.tiles {
+  padding: 0;
+}
+
+.arrow-left {
+  padding: 0;
+  margin-top: 12%;
+  text-align: left;
+  font-size: 2.5em;
+}
+
+.arrow-right {
+  padding: 0;
+  margin-top: 12%;
+  text-align: right;
+  font-size: 2.5em;
+}
+
+.new-trip {
+  text-align: center;
+  margin-top: 10px;
+  a, button {
+    margin-right: 10px;
+  }
+}
+
+.trip-tile {
+  text-align: center;
+}
+.polaroids {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  background-color: $white;
+  -webkit-transition: -webkit-transform .15s linear;
   display: inline-block;
-  height: 450px;
-  overflow-y: scroll;
-  li {
-    background-color: $white;
-    -webkit-transition: -webkit-transform .15s linear;
-    width: 18%;
-    height: 150px;
-    margin: 0.5%;
-    display: inline-block;
-    vertical-align: top;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
-    span{
-      color: $primary;
+  margin: 1%;
+  width: 60%;
+  min-height: 200px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+  p.trip-name {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #437085;
+    font-size: 1.2em;
+  }
+  .trip-contents {
+    p {
+      margin-bottom: 5px;
+      span{
+        color: #5C828C;
+      }
     }
   }
-  li:hover {
-    -webkit-transition: -webkit-transform .15s linear;
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    position: relative;
-    z-index: 5;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 1);
+  p {
+    color: red;
   }
   img {
-   height: 90%;
-   width: 90%;
-   margin: 5%
+    height: 200px;
   }
-  p {
-    text-align: center;
+}
+
+.modal-infoitinerary {
+  background-color: #73A0A9;
+  border-color: #73A0A9;
+  a {
+    font-size: 1.2em;
+    color: #EDF400;
+    &:hover {
+      color: #BBC100;
+    }
   }
-  input[type="text"] {
+  .info-center {
     margin-top: 10px;
   }
 }
 
-ul.button-group.even-1 {
-  float: right;
-  margin-right: 5%;
-  & .button {
-    min-width: 110px;
+.create-title {
+    text-align: center;
+  h1 {
+    font-size: 4em;
+    color: #EDF400;
+    font-weight: 800;
   }
 }
 
+.slick-prev:before, .slick-next:before {
+    font-family: "slick";
+    font-size: 70px;
+    line-height: 1;
+    color: #437085;
+    opacity: 1.0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    &:hover {
+      color: #2A4754;
+    }
+}
+
+
 li {
   list-style-type: none;
+}
+
+
+.gasinfo{
+    text-align: center;
+  border: solid #00C3D9 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #00C3D9;
+  }
+}
+
+.cafeinfo{
+  text-align: center;
+  border: solid #4BC52F 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #4BC52F;
+  }
+}
+
+.liquorinfo{
+  text-align: center;
+  border: solid #F1EC02 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #F1EC02;
+  }
+}
+
+.slick-list {
+  text-align: center;
+}
+
+.campinfo{
+  text-align: center;
+  border: solid #FF2839 3px;
+  border-radius: 3px;
+  color: $white;
+  padding-bottom: 5px;
+  background-color: rgba(black, 0.3);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  i {
+    color: #FF2839;
+  }
 }
 
 .newTrip.reveal-modal {
@@ -146,5 +482,7 @@ span.prefix {
 }
 
 .finished {
+
+  z-index: 20;
   background: $third;
 }
