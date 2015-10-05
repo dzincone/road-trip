@@ -91,6 +91,37 @@ var UserComponent = React.createClass({
         }
       }.bind(this))
   },
+  oneTripstop: function(id){
+      $('#waypoints').empty()
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + id + '.json', function(results){
+      console.log("here are the results", results);
+      $('#waypoints').append(results.destinations.map(function(e){
+        return e.name + "/"
+      }))
+        if(this.isMounted()){
+          var events = results.events
+          var temp = results.destinations.splice(1, 1)
+          results.destinations = results.destinations.concat(temp)
+          var destinations = results.destinations.map(function (e) {
+            var destEvents = []
+            events.forEach(function (event) {
+              if (event.destination_id === e.id){
+                destEvents.push(event);
+              }
+            })
+            return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
+          });
+          this.setState({
+            currentTrip: results.id,
+            trip: results,
+            destinations: destinations,
+            finished: results.finished
+          })
+          this.activities()
+          initMap()
+        }
+      }.bind(this))
+  },
   getTripInfo: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.state.currentTrip + '.json', function(results){
       if(this.isMounted()){
@@ -203,7 +234,7 @@ var UserComponent = React.createClass({
       <div>
       {this.state.toggle ? <GetTiles makeNewTrip={this.makeNewTrip} oneTrip={this.oneTrip} toggled={this.toggled} toggle={this.state.toggle} value={this.state.value} trip={this.state.trip} destinations={this.state.destinations}
       finished={this.state.finished} /> :
-      <TripDashboard toggled={this.toggled} currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
+      <TripDashboard toggled={this.toggled} oneTripstop={this.oneTripstop} currentTrip={this.state.currentTrip} onClick={this.onClick} posts={this.state.posts} newBlogPost={this.newBlogPost}
       lat={this.state.lat} long={this.state.long} showResults={this.state.showResults}
       itinerary={this.itinerary} blogs={this.blogs}
       activities={this.activities} trip={this.state.trip} destinations={this.state.destinations}

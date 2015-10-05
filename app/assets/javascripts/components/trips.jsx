@@ -37,7 +37,7 @@ var TripDashboard = React.createClass({
           </ul>
           <div className="tab-content small-12 columns">
               <div className="itinerary small-5 columns">
-                <Itinerary toggled={this.props.toggled} currentTrip={this.props.currentTrip} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
+                <Itinerary oneTripstop={this.props.oneTripstop} toggled={this.props.toggled} currentTrip={this.props.currentTrip} finished={this.props.finished} updateTrip={this.props.getTripInfo} trip={this.props.trip} destinations={this.props.destinations}/>
               </div>
               <div className="trip-options small-7 columns">
                 {this.props.status === 2 ? <BlogCarousel showResults={this.props.showResults} onClick={this.props.onClick} lat={this.props.lat} long={this.props.long} posts={this.props.posts} newBlogPost={this.props.newBlogPost}/> :
@@ -194,7 +194,7 @@ var Itinerary = React.createClass({
       <div className="itinerary">
         <button className="back-trip small" onClick={this.props.toggled}>Go Back to Trips</button>
         <div className="new-trip">
-        {<NewTripModal getTripInfo={this.props.updateTrip} currentTrip={this.props.currentTrip}/>}
+        {<NewTripModal oneTripstop={this.props.oneTripstop} getTripInfo={this.props.updateTrip} currentTrip={this.props.currentTrip}/>}
         </div>
         <div className="destination-list">
           <h3>Select City</h3>
@@ -530,9 +530,9 @@ var NewTripModal = React.createClass({
     var name = $('#newstopcitystate').val()
     $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+this.props.currentTrip+'/destinations',
       {'destination[name]': name, '_method': 'post'})
-    this.props.getTripInfo()
+    this.props.oneTripstop(this.props.currentTrip)
     this.closeModal()
-    initmap()
+    initMap()
   },
   render: function() {
     return (
