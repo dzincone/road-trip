@@ -154,8 +154,8 @@ var UserComponent = React.createClass({
     $.post('/users/'+ window.location.pathname.split('/')[2]+'/trips',
     {async: false, 'trip[name]': name, 'trip[start_location_city]': start_location_city, 'trip[start_location_state]': start_location_state, 'trip[end_location_city]': end_location_city, 'trip[end_location_state]': end_location_state, "_method": "post"})
     .done(function(data){
-      console.log(data);
-    })
+      this.oneTrip(data.id)
+    }.bind(this))
 
   },
   addAStop: function(){
@@ -263,7 +263,7 @@ var GetTiles = React.createClass({
     return (
       <div className="small-12 columns">
         <div className="small-12">
-          <NewTripButton makeNewTrip={this.props.makeNewTrip}/>
+          <NewTripButton oneTrip={this.props.oneTrip} makeNewTrip={this.props.makeNewTrip}/>
           <div className="create-title">
           <h1>Choose Your Trip</h1>
           </div>

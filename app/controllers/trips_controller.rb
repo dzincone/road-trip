@@ -209,7 +209,7 @@ class TripsController < ApplicationController
       @destination_here.save
       @destination_start.save
       @destination_end.save
-      redirect_to user_path(current_user.id)
+      render json: @trip
     else
       redirect_to root_path
     end
